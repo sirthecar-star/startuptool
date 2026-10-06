@@ -21,7 +21,9 @@ main{max-width:860px;margin:20px auto;padding:0 16px 80px}
 .intro label{font-weight:700}
 section{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:18px}
 h2{font-size:18px;margin:0 0 4px;color:var(--pri)}
-.quote{color:var(--sub);font-size:14px;margin:0 0 14px;font-style:italic}
+:root{--guide:#7c3aed}
+::placeholder{color:#9ca3af;opacity:1}
+.quote{color:var(--guide);font-size:14px;margin:0 0 14px;font-style:italic}
 .lbl{display:block;font-weight:700;margin:14px 0 6px;font-size:15px}
 input[type=text],textarea{width:100%;font:inherit;font-size:15px;padding:9px 11px;border:1.5px solid var(--line);border-radius:8px;background:var(--field);color:var(--ink)}
 input[type=text]:focus,textarea:focus{outline:none;border-color:var(--pri);background:#fff;box-shadow:0 0 0 3px var(--pri2)}
@@ -43,7 +45,7 @@ td input[type=text]{border:none;background:transparent}
 .warn{border:2px solid var(--bad)!important;background:#fff5f5!important;border-radius:8px}
 .warnmsg{color:var(--bad);font-size:13px;font-weight:700;margin-top:4px}
 .req{color:var(--bad);font-weight:700}
-.hint{font-size:13px;color:var(--sub);margin-top:6px}
+.hint{font-size:13px;color:var(--guide);margin-top:6px}
 .rowbtn{margin-top:8px}
 @media print{header{display:none}body{background:#fff}section{break-inside:avoid}}
 </style>
@@ -70,7 +72,7 @@ td input[type=text]{border:none;background:transparent}
     <input type="text" id="ideaName" data-k="ideaName" style="max-width:260px" placeholder="아이디어(서비스) 이름">
     <span class="hint">입력하는 내용은 이 브라우저에 자동 저장되며, 다시 열면 이어서 수정할 수 있습니다.</span>
   </div>
-  <p style="margin:0 0 16px">초기 단계의 아이디어를 공유함으로써 피드백을 얻어 사업의 방향성을 수립하세요.</p>
+  <p style="margin:0 0 16px;color:var(--guide)">초기 단계의 아이디어를 공유함으로써 피드백을 얻어 사업의 방향성을 수립하세요.</p>
 
   <section>
     <h2>1. 창업 아이디어를 소개해주세요.</h2>
