@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>창업 아이디어 검증 워크북</title>
+<style>
+:root{--bg:#f4f6fb;--card:#fff;--ink:#1f2937;--sub:#6b7280;--line:#d7dce6;--pri:#3b5bdb;--pri2:#e7ecff;--good:#2f9e44;--bad:#e03131;--field:#fbfcff}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Malgun Gothic","Apple SD Gothic Neo",sans-serif;line-height:1.6}
+header{position:sticky;top:0;z-index:5;background:#fff;border-bottom:1px solid var(--line);padding:10px 16px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+header h1{font-size:18px;margin:0}
+.bar{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+button,.btn{font:inherit;font-size:14px;border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px 12px;cursor:pointer;color:var(--ink)}
+button:hover,.btn:hover{background:var(--pri2)}
+button.primary{background:var(--pri);color:#fff;border-color:var(--pri)}
+button.primary:hover{background:#2f4ac0}
+#status{font-size:13px;color:var(--sub);min-width:130px;text-align:right}
+main{max-width:860px;margin:20px auto;padding:0 16px 80px}
+.intro{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+.intro label{font-weight:700}
+section{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:18px}
+h2{font-size:18px;margin:0 0 4px;color:var(--pri)}
+.quote{color:var(--sub);font-size:14px;margin:0 0 14px;font-style:italic}
+.lbl{display:block;font-weight:700;margin:14px 0 6px;font-size:15px}
+input[type=text],textarea{width:100%;font:inherit;font-size:15px;padding:9px 11px;border:1.5px solid var(--line);border-radius:8px;background:var(--field);color:var(--ink)}
+input[type=text]:focus,textarea:focus{outline:none;border-color:var(--pri);background:#fff;box-shadow:0 0 0 3px var(--pri2)}
+textarea{resize:vertical;min-height:90px}
+.kw{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+@media(max-width:600px){.kw{grid-template-columns:repeat(2,1fr)}}
+.big{min-height:200px}
+table{width:100%;border-collapse:collapse}
+th{background:var(--pri2);padding:8px;border:1px solid var(--line);font-size:14px}
+th.g{color:var(--good)}th.b{color:var(--bad)}
+td{border:1px solid var(--line);padding:4px;vertical-align:top}
+td textarea{min-height:70px;border:none;background:transparent}
+td input[type=text]{border:none;background:transparent}
+.q{margin-top:16px;padding:12px 14px;background:var(--pri2);border-radius:10px;font-weight:700}
+.imgs{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+.imgs div{position:relative}
+.imgs img{max-height:200px;max-width:100%;cursor:zoom-in;border:1px solid var(--line);border-radius:8px;display:block}
+.imgs button{position:absolute;top:4px;right:4px;padding:0 7px;font-size:13px;background:#fff}
+.warn{border:2px solid var(--bad)!important;background:#fff5f5!important;border-radius:8px}
+.warnmsg{color:var(--bad);font-size:13px;font-weight:700;margin-top:4px}
+.req{color:var(--bad);font-weight:700}
+.hint{font-size:13px;color:var(--sub);margin-top:6px}
+.rowbtn{margin-top:8px}
+@media print{header{display:none}body{background:#fff}section{break-inside:avoid}}
+</style>
+</head>
+<body>
+<header>
+  <h1>📝 창업 아이디어 검증 워크북</h1>
+  <div class="bar">
+    <span id="status">자동 저장됨</span>
+    <button class="primary" id="btnDocx">📄 문서 만들기 (Word)</button>
+    <button class="primary" id="btnXlsx">📊 엑셀로 저장</button>
+    <button id="btnSave">💾 파일로 저장</button>
+    <label class="btn">📂 불러오기<input type="file" id="fileLoad" accept=".json" hidden></label>
+    <button id="btnReset">🗑 새로 시작</button>
+    <span id="ver" title="파일을 저장할 때마다 1씩 올라갑니다" style="background:var(--pri);color:#fff;border-radius:999px;padding:3px 12px;font-size:13px;font-weight:700;white-space:nowrap">v0</span>
+  </div>
+</header>
+
+<main>
+  <div class="intro">
+    <label for="author">작성자</label>
+    <input type="text" id="author" data-k="author" style="max-width:160px" placeholder="이름">
+    <label for="ideaName">아이디어명</label>
+    <input type="text" id="ideaName" data-k="ideaName" style="max-width:260px" placeholder="아이디어(서비스) 이름">
+    <span class="hint">입력하는 내용은 이 브라우저에 자동 저장되며, 다시 열면 이어서 수정할 수 있습니다.</span>
+  </div>
+  <p style="margin:0 0 16px">초기 단계의 아이디어를 공유함으로써 피드백을 얻어 사업의 방향성을 수립하세요.</p>
+
+  <section>
+    <h2>1. 창업 아이디어를 소개해주세요.</h2>
+    <p class="quote">“ 아이디어를 공유함으로써 나의 아이템에 대한 검증을 해볼 수 있다 ”</p>
+    <span class="lbl">키워드</span>
+    <div class="kw">
+      <input type="text" data-k="kw1" placeholder="키워드 1">
+      <input type="text" data-k="kw2" placeholder="키워드 2">
+      <input type="text" data-k="kw3" placeholder="키워드 3">
+      <input type="text" data-k="kw4" placeholder="키워드 4">
+    </div>
+    <span class="lbl">OSP (한 문장으로 표현하기)</span>
+    <div class="ospbox">
+      <div class="hint" style="margin:0 0 6px">① 아래 3칸을 채우면 초안이 만들어집니다. (비워두면 위 키워드로 초안을 만듭니다)</div>
+      <div class="kw" style="grid-template-columns:repeat(3,1fr)">
+        <input type="text" data-k="ospWho" placeholder="누가? (예: 자취하는 대학생)">
+        <input type="text" data-k="ospProblem" placeholder="어떤 문제? (예: 식재료를 버리는)">
+        <input type="text" data-k="ospSol" placeholder="무엇으로? (예: 소분 식단 구독)">
+      </div>
+      <div class="rowbtn"><button id="btnOsp">✨ OSP 초안 만들기</button>
+      <span class="hint">② 만들어진 초안은 아래 칸에서 자유롭게 고쳐 쓰세요.</span></div>
+    </div>
+    <textarea data-k="osp" id="osp" style="min-height:60px;margin-top:8px" placeholder="예) ○○을 겪는 △△를 위해 □□를 제공하는 서비스"></textarea>
+    <span class="lbl">글과 그림, 도표 등을 활용해 자유롭게 소개하기</span>
+    <div class="rowbtn" style="margin:0 0 8px"><button id="btnIntro">✨ 소개 초안 만들기</button>
+    <span class="hint">위의 키워드·OSP 입력값으로 뼈대를 만들어 줍니다. 각 줄을 짧게 채우거나 고쳐 쓰세요.</span></div>
+    <textarea class="big" data-k="intro" id="intro" placeholder="아이디어를 자유롭게 소개해 주세요."></textarea>
+    <div class="rowbtn"><label class="btn">🖼 그림 추가<input type="file" accept="image/*" multiple hidden data-img="introImgs"></label>
+    <button id="btnSketch">✏️ 스케치 그리기</button>
+    <span class="hint">이미지 붙여넣기(Ctrl+V)도 가능합니다. 그림을 누르면 크게 볼 수 있고, 엑셀·Word 파일에도 그림이 들어갑니다.</span></div>
+    <div id="sketchBox" style="display:none;margin-top:10px">
+      <canvas id="sk" width="640" height="320" style="width:100%;max-width:640px;background:#fff;border:1.5px solid var(--line);border-radius:8px;touch-action:none;cursor:crosshair"></canvas>
+      <div class="rowbtn"><button id="skClear">지우기</button> <button class="primary" id="skAdd">그림으로 추가</button> <button id="skClose">닫기</button></div>
+    </div>
+    <div class="imgs" id="introImgs"></div>
+  </section>
+
+  <section>
+    <h2>2. 경쟁 제품/서비스를 소개해주세요.</h2>
+    <p class="quote">“ 경쟁 제품/서비스가 없는 것은 슬픈 것이다. 시장이 없을 수 있기 때문이다 ”</p>
+    <span class="lbl">경쟁사</span>
+    <textarea data-k="rivals" style="min-height:60px" placeholder="경쟁사 이름들을 적어 주세요."></textarea>
+    <span class="lbl">경쟁 제품/서비스 소개하기</span>
+    <textarea class="big" data-k="rivalIntro" placeholder="경쟁 제품/서비스의 특징, 강점, 약점, 가격 등"></textarea>
+  </section>
+
+  <section>
+    <h2>3. 다른 사람들에게 창업 아이디어에 대한 피드백을 받아보세요.</h2>
+    <table>
+      <thead><tr><th style="width:20%">참여자</th><th class="g">좋았던 점 (GOOD)</th><th class="b">아쉬웠던 점 (BAD)</th></tr></thead>
+      <tbody id="fbBody"></tbody>
+    </table>
+    <div class="rowbtn"><button id="addRow">＋ 행 추가</button></div>
+    <div class="q">내 제품/서비스가 고객이 정말로 좋아할 만한 것인가?</div>
+    <textarea data-k="customerLike" style="margin-top:8px" placeholder="피드백을 바탕으로 생각을 정리해 보세요."></textarea>
+  </section>
+
+  <section>
+    <h2>4. AI 의 도움을 요청해 보세요.</h2>
+    <span class="lbl">내가 AI에게 질문한 Prompt</span>
+    <div class="rowbtn" style="margin:0 0 8px"><button class="draft" data-draft="aiPrompt">✨ 프롬프트 초안 만들기</button>
+    <button id="btnCopy">📋 프롬프트 복사</button>
+    <button class="primary" id="btnAsk">🤖 AI에게 질문하고 핵심 정리</button>
+    <button id="btnKey" title="AI 연결 설정">🔑</button>
+    <a class="btn" href="https://claude.ai" target="_blank" rel="noopener">Claude 열기 ↗</a>
+    <a class="btn" href="https://chatgpt.com" target="_blank" rel="noopener">ChatGPT 열기 ↗</a>
+    <div class="hint">① 초안을 고치고 → ② 복사해서 AI에 붙여넣고 → ③ 받은 답변의 핵심만 아래에 정리하세요.</div></div>
+    <textarea data-k="aiPrompt" class="big"></textarea>
+    <span class="lbl">AI 답변 핵심 내용</span>
+    <div class="rowbtn" style="margin:0 0 8px"><button class="draft" data-draft="aiAnswer">✨ 정리 틀 만들기</button>
+    <span class="hint">AI 답변 전체를 붙이지 말고, 핵심만 한 줄씩 적어 보세요.</span></div>
+    <textarea data-k="aiAnswer" class="big"></textarea>
+  </section>
+
+  <section>
+    <h2>5. AI 의 피드백과 적용/개선사항을 작성해보세요.</h2>
+    <span class="lbl">AI 피드백</span>
+    <div class="rowbtn" style="margin:0 0 8px"><button class="draft" data-draft="aiFeedback">✨ 피드백 초안 만들기</button>
+    <span class="hint">4번에서 정리한 AI 답변 핵심을 바탕으로 만듭니다.</span></div>
+    <textarea data-k="aiFeedback" class="big"></textarea>
+    <span class="lbl">개선 내용</span>
+    <div class="rowbtn" style="margin:0 0 8px"><button class="draft" data-draft="improve">✨ 개선 내용 초안 만들기</button>
+    <span class="hint">피드백마다 "무엇을 어떻게 바꿀지" 한 줄씩 적습니다.</span></div>
+    <textarea data-k="improve" class="big"></textarea>
+  </section>
+</main>
+
+<script src="xlsx.full.min.js"></script>
+<script src="jszip.min.js"></script>
+<script>
+const KEY='startup-workbook-v1';
+const FIELDS=[['author','작성자'],['ideaName','아이디어명'],['kw1','키워드 1'],['kw2','키워드 2'],['kw3','키워드 3'],['kw4','키워드 4'],
+['osp','1. OSP (한 문장으로 표현하기)'],['intro','1. 창업 아이디어 소개'],
+['rivals','2. 경쟁사'],['rivalIntro','2. 경쟁 제품/서비스 소개'],
+['customerLike','3. 내 제품/서비스가 고객이 정말로 좋아할 만한 것인가?'],
+['aiPrompt','4. AI에게 질문한 Prompt'],['aiAnswer','4. AI 답변 핵심 내용'],
+['aiFeedback','5. AI 피드백'],['improve','5. 개선 내용']];
+let data=load();
+const $=s=>document.querySelector(s), status=$('#status');
+
+function load(){try{return JSON.parse(localStorage.getItem(KEY))||{}}catch(e){return {}}}
+let timer;
+function persist(){
+  clearTimeout(timer);status.textContent='저장 중…';
+  timer=setTimeout(()=>{
+    try{localStorage.setItem(KEY,JSON.stringify(data));status.textContent='✔ 자동 저장됨 '+new Date().toLocaleTimeString('ko-KR')}
+    catch(e){status.textContent='⚠ 저장 공간 부족 – 파일로 저장하세요'}
+  },300);
+}
+function ensure(){data.fb=data.fb&&data.fb.length?data.fb:[{},{},{}];data.introImgs=data.introImgs||[]}
+
+function render(){
+  ensure();
+  document.querySelectorAll('[data-k]').forEach(el=>el.value=data[el.dataset.k]||'');
+  const tb=$('#fbBody');tb.innerHTML='';
+  data.fb.forEach((r,i)=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td><input type="text" placeholder="이름"></td><td><textarea></textarea></td><td><textarea></textarea></td>`;
+    const f=tr.querySelectorAll('input,textarea');
+    ['who','good','bad'].forEach((k,j)=>{f[j].value=r[k]||'';f[j].addEventListener('input',()=>{data.fb[i][k]=f[j].value;persist()})});
+    tb.appendChild(tr);
+  });
+  renderImgs();
+}
+function renderImgs(){
+  const box=$('#introImgs');box.innerHTML='';
+  data.introImgs=data.introImgs.map(x=>typeof x==='string'?{src:x,cap:''}:x);
+  data.introImgs.forEach((im,i)=>{
+    const d=document.createElement('div');d.style.maxWidth='320px';
+    d.innerHTML=`<img src="${im.src}"><button title="삭제">✕</button><input type="text" maxlength="40" placeholder="한 줄 설명 (40자 이내)" style="margin-top:4px;font-size:13px;padding:5px 8px">`;
+    d.querySelector('button').onclick=()=>{data.introImgs.splice(i,1);renderImgs();persist()};
+    d.querySelector('img').onclick=()=>{const o=document.createElement('div');o.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:99;display:flex;align-items:center;justify-content:center;cursor:zoom-out';o.innerHTML=`<img src="${im.src}" style="max-width:94vw;max-height:94vh;background:#fff;border-radius:8px">`;o.onclick=()=>o.remove();document.body.appendChild(o)};
+    const inp=d.querySelector('input');inp.value=im.cap||'';inp.oninput=()=>{im.cap=inp.value;persist()};
+    box.appendChild(d);
+  });
+}
+$('#btnIntro').onclick=()=>{
+  const v=k=>(data[k]||'').trim(), kws=['kw1','kw2','kw3','kw4'].map(v).filter(Boolean).join(', ');
+  if(!(v('osp')||v('ospWho')||v('ospSol')||kws)){alert('먼저 키워드나 OSP를 입력해 주세요.');return}
+  if(v('intro')&&!confirm('이미 작성한 내용이 있습니다. 초안으로 바꿀까요?'))return;
+  const t=`■ 한 줄 요약: ${v('osp')}\n■ 고객: ${v('ospWho')||'(누구를 위한 건가요?)'}\n■ 문제: ${v('ospProblem')||'(고객이 겪는 불편은?)'}\n■ 해결 방법: ${v('ospSol')||'(우리가 제공하는 것은?)'}\n■ 차별점: (경쟁 서비스와 다른 점 한 줄)\n■ 수익 방식: (어떻게 돈을 벌까요?)\n■ 핵심 키워드: ${kws}`;
+  data.intro=t;$('#intro').value=t;$('#intro').focus();persist();
+};
+// 4·5번 초안
+const lines=s=>(s||'').split('\n').map(x=>x.replace(/^[■\-•\d.)\s]+/,'').replace(/^[^:：]{1,20}[:：]\s*/,'').trim()).filter(x=>x&&!/^\(.*\)$/.test(x));
+const DRAFTS={
+  aiPrompt:()=>{
+    const v=k=>(data[k]||'').trim();
+    if(!(v('osp')||v('ospSol')||v('intro'))){alert('1번(OSP·소개)을 먼저 작성해 주세요.');return null}
+    return `나는 창업 아이디어를 검증 중인 학생이야. 아래 아이디어를 냉정하게 평가해 줘.\n\n[아이디어] ${v('osp')||v('ospSol')}\n[고객] ${v('ospWho')||'미정'}\n[문제] ${v('ospProblem')||'미정'}\n[해결 방법] ${v('ospSol')||'미정'}\n[경쟁사] ${v('rivals')||'미정'}\n\n다음을 각각 3줄 이내로 답해 줘.\n1. 가장 큰 강점 1가지\n2. 가장 큰 약점·위험 2가지\n3. 경쟁사 대비 차별화 방법\n4. 고객이 진짜 원하는지 확인할 수 있는 가장 싼 검증 실험 1가지`;
+  },
+  aiAnswer:()=>`■ 강점: \n■ 약점·위험: \n■ 차별화 제안: \n■ 추천 검증 실험: `,
+  aiFeedback:()=>{
+    const a=lines(data.aiAnswer);
+    return `■ 맞다고 느낀 피드백: ${a[0]||''}\n■ 아프지만 새겨들을 피드백: ${a[1]||''}\n■ 받아들이지 않을 피드백과 이유: `;
+  },
+  improve:()=>{
+    const f=lines(data.aiFeedback).map(x=>x.replace(/^[^:：]*[:：]\s*/,''));
+    return [0,1,2].map(i=>`${i+1}) ${f[i]||'(피드백 요약)'} → 이렇게 바꾼다: `).join('\n');
+  }
+};
+document.querySelectorAll('.draft').forEach(b=>b.onclick=()=>{
+  const k=b.dataset.draft,t=DRAFTS[k]();if(t==null)return;
+  if((data[k]||'').trim()&&!confirm('이미 작성한 내용이 있습니다. 초안으로 바꿀까요?'))return;
+  data[k]=t;const el=document.querySelector(`[data-k="${k}"]`);el.value=t;el.focus();persist();
+});
+$('#btnCopy').onclick=async()=>{
+  if(!(data.aiPrompt||'').trim()){alert('먼저 프롬프트를 작성해 주세요.');return}
+  try{await navigator.clipboard.writeText(data.aiPrompt);status.textContent='✔ 프롬프트 복사됨'}
+  catch(e){const el=document.querySelector('[data-k="aiPrompt"]');el.select();document.execCommand('copy');status.textContent='✔ 프롬프트 복사됨'}
+};
+// 스케치
+const sk=$('#sk'),cx=sk.getContext('2d');let drawing=false;
+function skClear(){cx.fillStyle='#fff';cx.fillRect(0,0,sk.width,sk.height)}
+function pos(e){const r=sk.getBoundingClientRect();return [(e.clientX-r.left)*sk.width/r.width,(e.clientY-r.top)*sk.height/r.height]}
+sk.onpointerdown=e=>{drawing=true;sk.setPointerCapture(e.pointerId);const[x,y]=pos(e);cx.beginPath();cx.moveTo(x,y);cx.lineWidth=3;cx.lineCap='round';cx.strokeStyle='#1f2937'};
+sk.onpointermove=e=>{if(!drawing)return;const[x,y]=pos(e);cx.lineTo(x,y);cx.stroke()};
+sk.onpointerup=()=>drawing=false;
+$('#btnSketch').onclick=()=>{$('#sketchBox').style.display='block';skClear()};
+$('#skClear').onclick=skClear;
+$('#skClose').onclick=()=>$('#sketchBox').style.display='none';
+$('#skAdd').onclick=()=>{data.introImgs.push({src:sk.toDataURL('image/jpeg',0.8),cap:''});renderImgs();persist();skClear();$('#sketchBox').style.display='none'};
+document.addEventListener('input',e=>{const k=e.target.dataset&&e.target.dataset.k;if(k){data[k]=e.target.value;persist()}});
+$('#btnOsp').onclick=()=>{
+  const v=k=>(data[k]||'').trim(), kws=['kw1','kw2','kw3','kw4'].map(v).filter(Boolean);
+  let who=v('ospWho'),prob=v('ospProblem'),sol=v('ospSol'),d;
+  if(who||prob||sol){
+    d=`${prob?prob+' ':''}${who||'고객'}을(를) 위해 ${sol||'○○'}을(를) 제공하는 서비스`;
+    if(!prob) d=`${who||'고객'}을(를) 위해 ${sol||'○○'}을(를) 제공하는 서비스`;
+  }else if(kws.length){
+    d=`${kws.join(', ')} 분야의 고객이 겪는 문제를 해결해 주는 서비스`;
+  }else{alert('누가/어떤 문제/무엇으로 중 하나 이상, 또는 키워드를 먼저 입력해 주세요.');return}
+  if(v('osp')&&!confirm('이미 작성한 OSP가 있습니다. 초안으로 바꿀까요?'))return;
+  data.osp=d;$('#osp').value=d;$('#osp').focus();persist();
+};
+$('#addRow').onclick=()=>{data.fb.push({});render();persist()};
+
+function addImage(file){
+  const rd=new FileReader();
+  rd.onload=()=>{const im=new Image();im.onload=()=>{
+    const s=Math.min(1,900/Math.max(im.width,im.height)),c=document.createElement('canvas');
+    c.width=im.width*s;c.height=im.height*s;c.getContext('2d').drawImage(im,0,0,c.width,c.height);
+    data.introImgs.push({src:c.toDataURL('image/jpeg',0.8),cap:''});renderImgs();persist()};im.src=rd.result};
+  rd.readAsDataURL(file);
+}
+document.querySelector('[data-img]').addEventListener('change',e=>{[...e.target.files].forEach(addImage);e.target.value=''});
+document.addEventListener('paste',e=>{[...(e.clipboardData?.items||[])].forEach(it=>{if(it.type.startsWith('image/'))addImage(it.getAsFile())})});
+
+function showVer(){const n=data.version||0;$('#ver').textContent='v'+n;$('#ver').title=data.savedAt?`마지막 파일 저장: ${data.savedAt}`:'파일을 저장할 때마다 1씩 올라갑니다'}
+function stamp(){data.version=(data.version||0)+1;data.savedAt=new Date().toLocaleString('ko-KR');showVer();persist()}
+function fname(ext){const c=s=>(s||'').replace(/[\\/:*?"<>|]/g,'');return `창업아이디어검증워크북_${c(data.author)||'무명'}${data.ideaName?'_'+c(data.ideaName):''}_v${data.version||0}.${ext}`}
+
+// ===== 필수 입력 점검 =====
+const has=k=>(data[k]||'').trim()!=='';
+const REQ=[
+  ['작성자',()=>has('author'),'#author','칸'],
+  ['아이디어명',()=>has('ideaName'),'#ideaName','칸'],
+  ['1. 키워드',()=>['kw1','kw2','kw3','kw4'].some(has),'.kw','group'],
+  ['1. OSP',()=>has('osp'),'#osp','칸'],
+  ['1. 아이디어 소개',()=>has('intro'),'#intro','칸'],
+  ['2. 경쟁사',()=>has('rivals'),'[data-k=rivals]','칸'],
+  ['2. 경쟁 제품/서비스 소개',()=>has('rivalIntro'),'[data-k=rivalIntro]','칸'],
+  ['3. 피드백 표',()=>(data.fb||[]).some(r=>(r.who||'').trim()&&(r.good||'').trim()&&(r.bad||'').trim()),'table','row'],
+  ['3. 고객이 좋아할 만한가',()=>has('customerLike'),'[data-k=customerLike]','칸'],
+  ['4. AI에게 질문한 Prompt',()=>has('aiPrompt'),'[data-k=aiPrompt]','칸'],
+  ['4. AI 답변 핵심 내용',()=>has('aiAnswer'),'[data-k=aiAnswer]','칸'],
+  ['5. AI 피드백',()=>has('aiFeedback'),'[data-k=aiFeedback]','칸'],
+  ['5. 개선 내용',()=>has('improve'),'[data-k=improve]','칸']
+];
+let checking=false;
+function validate(){
+  document.querySelectorAll('.warn').forEach(e=>e.classList.remove('warn'));
+  document.querySelectorAll('.warnmsg').forEach(e=>e.remove());
+  const miss=[];
+  REQ.forEach(([label,ok,sel,kind])=>{
+    if(ok())return;
+    const el=document.querySelector(sel);el.classList.add('warn');
+    const m=document.createElement('div');m.className='warnmsg';
+    m.textContent='⚠ '+(kind==='group'?'1개 이상 입력해 주세요.':kind==='row'?'참여자·좋았던 점·아쉬웠던 점을 모두 채운 행이 1개 이상 필요합니다.':'필수 입력 항목입니다.');
+    el.insertAdjacentElement('afterend',m);miss.push({label,el});
+  });
+  return miss;
+}
+function checkAll(){
+  checking=true;const miss=validate();
+  if(!miss.length)return true;
+  alert('입력하지 않은 항목이 '+miss.length+'개 있습니다.\n\n'+miss.map(m=>'• '+m.label).join('\n')+'\n\n빨간색으로 표시된 칸을 채운 뒤 다시 눌러 주세요.\n(임시 저장은 "💾 파일로 저장"으로 언제든 가능합니다.)');
+  miss[0].el.scrollIntoView({behavior:'smooth',block:'center'});
+  return false;
+}
+document.addEventListener('input',()=>{if(checking)validate()});
+
+// ===== AI 질문 + 핵심 정리 =====
+const AKEY='startup-workbook-apikey';
+const getKey=()=>{try{return localStorage.getItem(AKEY)||''}catch(e){return ''}};
+$('#btnKey').onclick=()=>{
+  const k=prompt('AI 연결용 Anthropic API 키를 입력하세요.\n(이 컴퓨터 브라우저에만 저장되고, 워크북 파일·엑셀·Word에는 포함되지 않습니다. 지우려면 빈칸으로 확인)',getKey());
+  if(k===null)return;try{k.trim()?localStorage.setItem(AKEY,k.trim()):localStorage.removeItem(AKEY)}catch(e){}
+};
+$('#btnAsk').onclick=async()=>{
+  const p=(data.aiPrompt||'').trim();
+  if(!p){alert('먼저 프롬프트 초안을 만들고 수정해 주세요.');return}
+  if(!getKey()){alert('AI 연결 키가 필요합니다. 🔑 버튼에서 API 키를 먼저 입력해 주세요.\n(키가 없으면 "프롬프트 복사"로 AI에 직접 질문한 뒤 핵심만 적어도 됩니다.)');return}
+  if((data.aiAnswer||'').trim()&&!confirm('이미 작성한 핵심 내용이 있습니다. AI 정리로 바꿀까요?'))return;
+  const b=$('#btnAsk');b.disabled=true;b.textContent='⏳ AI가 답변 중…';
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'content-type':'application/json','x-api-key':getKey(),'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:900,
+        system:'너는 창업 멘토다. 학생의 질문에 답한 뒤, 반드시 핵심만 아래 형식 그대로 한국어로 출력한다. 각 항목은 한 줄(60자 내외), 다른 말은 쓰지 않는다.\n■ 강점: \n■ 약점·위험: \n■ 차별화 제안: \n■ 추천 검증 실험: ',
+        messages:[{role:'user',content:p}]})});
+    const j=await r.json();if(!r.ok)throw new Error(j.error?.message||r.status);
+    const t=j.content.map(c=>c.text||'').join('').trim();
+    data.aiAnswer=t;document.querySelector('[data-k="aiAnswer"]').value=t;persist();
+  }catch(e){alert('AI 호출 실패: '+e.message+'\n키가 맞는지 확인하거나 "프롬프트 복사"를 이용해 주세요.')}
+  b.disabled=false;b.textContent='🤖 AI에게 질문하고 핵심 정리';
+};
+
+// ===== Word(docx) 만들기 =====
+const esc=s=>String(s??'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const run=(t,o={})=>`<w:r><w:rPr><w:rFonts w:ascii="맑은 고딕" w:eastAsia="맑은 고딕" w:hAnsi="맑은 고딕"/>${o.b?'<w:b/>':''}${o.i?'<w:i/>':''}${o.color?`<w:color w:val="${o.color}"/>`:''}<w:sz w:val="${o.sz||21}"/></w:rPr>${String(t??'').split('\n').map((l,i)=>`${i?'<w:br/>':''}<w:t xml:space="preserve">${esc(l)}</w:t>`).join('')}</w:r>`;
+const para=(t,o={})=>`<w:p><w:pPr><w:spacing w:before="${o.before??60}" w:after="${o.after??60}"/></w:pPr>${run(t,o)}</w:p>`;
+const cell=(inner,w,fill)=>`<w:tc><w:tcPr><w:tcW w:w="${w}" w:type="dxa"/>${fill?`<w:shd w:val="clear" w:color="auto" w:fill="${fill}"/>`:''}</w:tcPr>${inner||'<w:p/>'}</w:tc>`;
+const tbl=(rows,widths)=>`<w:tbl><w:tblPr><w:tblW w:w="${widths.reduce((a,b)=>a+b)}" w:type="dxa"/><w:tblBorders>${['top','left','bottom','right','insideH','insideV'].map(s=>`<w:${s} w:val="single" w:sz="6" w:space="0" w:color="999999"/>`).join('')}</w:tblBorders><w:tblCellMar><w:left w:w="100" w:type="dxa"/><w:right w:w="100" w:type="dxa"/></w:tblCellMar></w:tblPr>${rows.map(r=>`<w:tr>${r.map((c,i)=>cell(c.x,widths[i],c.fill)).join('')}</w:tr>`).join('')}</w:tbl>`;
+const box=t=>tbl([[{x:para(t||' ',{})}]],[9600]);
+const imgSize=src=>new Promise(res=>{const i=new Image();i.onload=()=>res([i.width,i.height]);i.src=src});
+
+$('#btnDocx').onclick=async()=>{
+  if(!checkAll())return;
+  ensure();stamp();const v=k=>data[k]||'';
+  const zip=new JSZip(),rels=[];let body='';
+  const H=t=>para(t,{b:1,sz:28,color:'3B5BDB',before:300,after:80}), Q=t=>para(t,{i:1,color:'666666',sz:19});
+  body+=para('창업 아이디어 검증',{b:1,sz:40,after:120});
+  body+=para(`작성자 : ${v('author')}      아이디어명 : ${v('ideaName')}`,{after:160});
+  body+=para(`버전 v${data.version} · ${data.savedAt}`,{sz:18,color:'777777'});
+  body+=para('초기 단계의 아이디어를 공유함으로써 피드백을 얻어 사업의 방향성을 수립하세요.');
+  body+=H('1. 창업 아이디어를 소개해주세요.')+Q('“ 아이디어를 공유함으로써 나의 아이템에 대한 검증을 해볼 수 있다 ”');
+  body+=para('키워드',{b:1})+tbl([['kw1','kw2','kw3','kw4'].map(k=>({x:para(v(k))}))],[2400,2400,2400,2400]);
+  body+=para('OSP(한 문장으로 표현하기)',{b:1,before:160})+box(v('osp'));
+  body+=para('글과 그림, 도표 등을 활용해 자유롭게 소개하기',{b:1,before:160});
+  let inner=para(v('intro')||' ');
+  for(let i=0;i<data.introImgs.length;i++){
+    const im=data.introImgs[i],[w0,h0]=await imgSize(im.src),w=Math.min(3600000,w0*9525),h=Math.round(w*h0/w0),n=i+1;
+    zip.file(`word/media/img${n}.jpg`,im.src.split(',')[1],{base64:true});
+    rels.push(`<Relationship Id="rImg${n}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="media/img${n}.jpg"/>`);
+    inner+=`<w:p><w:r><w:drawing><wp:inline distT="0" distB="0" distL="0" distR="0"><wp:extent cx="${w}" cy="${h}"/><wp:docPr id="${n}" name="그림${n}"/><a:graphic xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main"><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:pic xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:nvPicPr><pic:cNvPr id="${n}" name="img${n}.jpg"/><pic:cNvPicPr/></pic:nvPicPr><pic:blipFill><a:blip r:embed="rImg${n}"/><a:stretch><a:fillRect/></a:stretch></pic:blipFill><pic:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="${w}" cy="${h}"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom></pic:spPr></pic:pic></a:graphicData></a:graphic></wp:inline></w:drawing></w:r></w:p>`;
+    if(im.cap)inner+=para(`그림${n}. ${im.cap}`,{sz:18,color:'555555'});
+  }
+  body+=tbl([[{x:inner}]],[9600]);
+  body+=H('2. 경쟁 제품/서비스를 소개해주세요.')+Q('“ 경쟁 제품/서비스가 없는 것은 슬픈 것이다. 시장이 없을 수 있기 때문이다 ”');
+  body+=para('경쟁사',{b:1})+box(v('rivals'))+para('경쟁 제품/서비스 소개하기',{b:1,before:160})+box(v('rivalIntro'));
+  body+=H('3. 다른 사람들에게 창업 아이디어에 대한 피드백을 받아보세요.');
+  const hd=(t,c)=>({x:para(t,{b:1,color:c}),fill:'E7ECFF'});
+  body+=tbl([[hd('참여자'),hd('좋았던 점 (GOOD)','2F9E44'),hd('아쉬웠던 점 (BAD)','E03131')],...data.fb.map(r=>[{x:para(r.who)},{x:para(r.good)},{x:para(r.bad)}])],[1800,3900,3900]);
+  body+=para('내 제품/서비스가 고객이 정말로 좋아할 만한 것인가?',{b:1,before:160})+box(v('customerLike'));
+  body+=H('4. AI 의 도움을 요청해 보세요.');
+  body+=para('내가 AI에게 질문한 Prompt:',{b:1})+box(v('aiPrompt'))+para('AI 답변 핵심 내용:',{b:1,before:160})+box(v('aiAnswer'));
+  body+=H('5. AI 의 피드백과 적용/개선사항을 작성해보세요.');
+  body+=para('AI 피드백:',{b:1})+box(v('aiFeedback'))+para('개선 내용:',{b:1,before:160})+box(v('improve'));
+
+  const NS='xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing"';
+  zip.file('[Content_Types].xml','<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Default Extension="jpg" ContentType="image/jpeg"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/></Types>');
+  zip.file('_rels/.rels','<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>');
+  zip.file('word/_rels/document.xml.rels',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">${rels.join('')}</Relationships>`);
+  zip.file('word/document.xml',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:document ${NS}><w:body>${body}<w:p/><w:sectPr><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="1134" w:right="1134" w:bottom="1134" w:left="1134" w:header="567" w:footer="567" w:gutter="0"/></w:sectPr></w:body></w:document>`);
+  download(await zip.generateAsync({type:'blob',mimeType:'application/vnd.openxmlformats-officedocument.wordprocessingml.document'}),fname('docx'));
+};
+function download(blob,name){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
+
+$('#btnSave').onclick=()=>{stamp();download(new Blob([JSON.stringify(data)],{type:'application/json'}),fname('json'))};
+$('#fileLoad').onchange=e=>{
+  const f=e.target.files[0];if(!f)return;
+  const rd=new FileReader();rd.onload=()=>{try{data=JSON.parse(rd.result);render();persist();alert('불러오기 완료!')}catch(err){alert('올바른 워크북 파일이 아닙니다.')}};
+  rd.readAsText(f);e.target.value='';
+};
+$('#btnReset').onclick=()=>{if(confirm('입력한 내용이 모두 지워집니다. 먼저 "파일로 저장"을 해두셨나요?\n정말 새로 시작할까요?')){data={};localStorage.removeItem(KEY);render();status.textContent='초기화됨'}};
+
+$('#btnXlsx').onclick=async()=>{
+  if(!checkAll())return;
+  ensure();stamp();
+  const wb=XLSX.utils.book_new();
+  const rows=[['항목','내용'],['버전',`v${data.version} (${data.savedAt})`],...FIELDS.map(([k,l])=>[l,data[k]||''])];
+  const caps=data.introImgs.map((x,i)=>x.cap?`그림${i+1}: ${x.cap}`:'').filter(Boolean).join('\n');
+  if(caps)rows.splice(rows.findIndex(r=>r[0]==='1. 창업 아이디어 소개')+1,0,['1. 그림 설명',caps]);
+  const ws=XLSX.utils.aoa_to_sheet(rows);
+  ws['!cols']=[{wch:44},{wch:100}];
+  XLSX.utils.book_append_sheet(wb,ws,'워크북');
+  const fb=[['참여자','좋았던 점 (GOOD)','아쉬웠던 점 (BAD)'],...data.fb.filter(r=>r.who||r.good||r.bad).map(r=>[r.who||'',r.good||'',r.bad||''])];
+  const w2=XLSX.utils.aoa_to_sheet(fb);w2['!cols']=[{wch:18},{wch:60},{wch:60}];
+  XLSX.utils.book_append_sheet(wb,w2,'3.피드백');
+  const imgs=data.introImgs;
+  if(!imgs.length){XLSX.writeFile(wb,fname('xlsx'));return}
+  // 그림 시트: 표를 만든 뒤 xlsx 안에 그림(drawing)을 직접 끼워 넣는다
+  const w3=XLSX.utils.aoa_to_sheet([['번호','설명','그림'],...imgs.map((x,i)=>[i+1,x.cap||'',''])]);
+  w3['!cols']=[{wch:6},{wch:36},{wch:60}];w3['!rows']=[{hpt:20},...imgs.map(()=>({hpt:160}))];
+  XLSX.utils.book_append_sheet(wb,w3,'1.그림');
+  const zip=await JSZip.loadAsync(XLSX.write(wb,{type:'array',bookType:'xlsx'}));
+  const sheetNo=wb.SheetNames.length, sp=`xl/worksheets/sheet${sheetNo}.xml`;
+  const R='http://schemas.openxmlformats.org/officeDocument/2006/relationships';
+  let anchors='',drels='';
+  for(let i=0;i<imgs.length;i++){
+    const [w0,h0]=await imgSize(imgs[i].src),s=Math.min(1,200/h0,400/w0),cx=Math.round(w0*s*9525),cy=Math.round(h0*s*9525),n=i+1;
+    zip.file(`xl/media/img${n}.jpg`,imgs[i].src.split(',')[1],{base64:true});
+    drels+=`<Relationship Id="rId${n}" Type="${R}/image" Target="../media/img${n}.jpg"/>`;
+    anchors+=`<xdr:oneCellAnchor><xdr:from><xdr:col>2</xdr:col><xdr:colOff>38100</xdr:colOff><xdr:row>${n}</xdr:row><xdr:rowOff>38100</xdr:rowOff></xdr:from><xdr:ext cx="${cx}" cy="${cy}"/><xdr:pic><xdr:nvPicPr><xdr:cNvPr id="${n+1}" name="그림${n}"/><xdr:cNvPicPr/></xdr:nvPicPr><xdr:blipFill><a:blip xmlns:r="${R}" r:embed="rId${n}"/><a:stretch><a:fillRect/></a:stretch></xdr:blipFill><xdr:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="${cx}" cy="${cy}"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom></xdr:spPr></xdr:pic><xdr:clientData/></xdr:oneCellAnchor>`;
+  }
+  zip.file('xl/drawings/drawing1.xml',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><xdr:wsDr xmlns:xdr="http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main">${anchors}</xdr:wsDr>`);
+  zip.file('xl/drawings/_rels/drawing1.xml.rels',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">${drels}</Relationships>`);
+  zip.file(`xl/worksheets/_rels/sheet${sheetNo}.xml.rels`,`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rIdDr1" Type="${R}/drawing" Target="../drawings/drawing1.xml"/></Relationships>`);
+  zip.file(sp,(await zip.file(sp).async('string')).replace('</worksheet>',`<drawing xmlns:r="${R}" r:id="rIdDr1"/></worksheet>`));
+  let ct=await zip.file('[Content_Types].xml').async('string');
+  if(!/Extension="jpg"/.test(ct))ct=ct.replace('<Override','<Default Extension="jpg" ContentType="image/jpeg"/><Override');
+  ct=ct.replace('</Types>','<Override PartName="/xl/drawings/drawing1.xml" ContentType="application/vnd.openxmlformats-officedocument.drawing+xml"/></Types>');
+  zip.file('[Content_Types].xml',ct);
+  download(await zip.generateAsync({type:'blob',mimeType:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}),fname('xlsx'));
+};
+
+render();showVer();
+</script>
+</body>
+</html>
