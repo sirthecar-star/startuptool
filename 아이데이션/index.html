@@ -1,0 +1,892 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>아이데이션 GUIDE (활동 보고서)</title>
+<style>
+  :root{ --bg:#eef3f8; --card:#fff; --ink:#16202e; --sub:#586579; --line:#d6dde9; --accent:#2563eb; --soft:#e8f0ff; --good:#15803d; --warn:#b45309; }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Pretendard","Malgun Gothic","Apple SD Gothic Neo",sans-serif;line-height:1.6}
+  header{background:#0f2a4a;color:#fff;padding:10px 18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;position:sticky;top:0;z-index:5}
+  header h1{margin:0;font-size:17px}
+  header .sp{flex:1}
+  header .st{font-size:12.5px;color:#b7c9e6}
+  header button,header label.btn{font:inherit;font-size:12.5px;padding:5px 10px;border-radius:8px;border:1px solid #2d4f7c;background:#173a64;color:#fff;cursor:pointer;font-weight:600}
+  .steps{display:flex;gap:8px;max-width:980px;margin:14px auto 0;padding:0 16px}
+  .steps button{flex:1;font:inherit;text-align:left;border:1.5px solid var(--line);background:#fff;border-radius:14px;padding:9px 14px;cursor:pointer}
+  .steps button b{display:block;font-size:14px}
+  .steps button small{color:var(--sub);font-size:12px}
+  .steps button.on{border-color:var(--accent);background:var(--soft)}
+  .steps button.done b::after{content:" ✓";color:var(--good)}
+  .wrap{max-width:980px;margin:0 auto;padding:12px 16px 90px}
+  .prog{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--sub);margin:10px 0}
+  .prog .bar{flex:1;height:8px;background:#dbe5f2;border-radius:99px;overflow:hidden}
+  .prog .bar i{display:block;height:100%;background:linear-gradient(90deg,#2563eb,#7c3aed);width:0;transition:width .3s}
+  .intro{background:#fff7ed;border:1px solid #fed7aa;border-radius:14px;padding:10px 14px;font-size:13.5px;color:#9a3412;margin-bottom:12px}
+  .intro button{font:inherit;font-size:12.5px;font-weight:700;margin-left:6px;padding:3px 10px;border-radius:8px;border:1px solid #fdba74;background:#fff;cursor:pointer;color:#9a3412}
+  .card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px 18px;margin-bottom:14px;box-shadow:0 3px 12px #2563eb10}
+  .card h2{margin:0 0 4px;font-size:18px;display:flex;align-items:center;gap:10px}
+  .card h2 .n{width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:15px;flex:none}
+  .card.done h2 .n{background:var(--good)}
+  .tip{font-size:13px;color:var(--sub);margin:0 0 12px 40px}
+  .q{margin-bottom:11px}
+  .q>label{display:block;font-size:13.5px;font-weight:800;margin-bottom:4px}
+  .q>label small{font-weight:500;color:var(--sub)}
+  input[type=text],input[type=number],textarea{font:inherit;width:100%;border:1.5px solid var(--line);border-radius:10px;padding:9px 11px;background:#f8fafc;color:var(--ink);font-size:14.5px}
+  textarea{min-height:84px;resize:vertical}
+  input:focus,textarea:focus{outline:2px solid #2563eb55;border-color:var(--accent)}
+  .chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:5px}
+  .chips span{font-size:11.5px;font-weight:800;color:#7c3aed;align-self:center}
+  .chips button{font:inherit;font-size:12px;border:1px dashed #a78bfa;background:#f5f3ff;color:#5b21b6;padding:2px 10px;border-radius:99px;cursor:pointer}
+  .chips button:hover{background:#ede9fe}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+  .row4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+  .fn{border:1px solid var(--line);border-radius:12px;padding:8px 10px;background:#fbfcff;margin-bottom:8px}
+  .fn b{font-size:12.5px;color:var(--accent)}
+  .tags{display:flex;flex-wrap:wrap;gap:6px}
+  .tags label{font-size:13px;border:1.5px solid var(--line);border-radius:99px;padding:3px 12px;cursor:pointer;background:#fff;user-select:none}
+  .tags input{display:none}
+  .tags label.on{background:var(--soft);border-color:var(--accent);color:var(--accent);font-weight:800}
+  .out{background:linear-gradient(135deg,#eff6ff,#f5f3ff);border:1px solid #c7d2fe;border-radius:14px;padding:10px 12px;margin-top:6px}
+  .out .oh{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:800;color:#4338ca;margin-bottom:4px}
+  .out .oh span{margin-left:auto;font-weight:600;color:var(--sub)}
+  .out .oh button{font:inherit;font-size:12px;padding:2px 10px;border-radius:8px;border:1px solid #a5b4fc;background:#fff;cursor:pointer;font-weight:700;color:#4338ca}
+  .out textarea{background:#fff;min-height:96px}
+  .out .oh .hb2{background:linear-gradient(90deg,#2563eb,#7c3aed);color:#fff;border:0}
+  .helper{margin-top:8px;background:#fff;border:1.5px solid #c7d2fe;border-radius:14px;padding:10px 12px}
+  .helper .hh{font-weight:800;font-size:13.5px;color:#4338ca;margin-bottom:6px}
+  .helper .hc{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px}
+  .helper .hc span{background:#eef2ff;border-radius:99px;padding:2px 11px;font-size:12px}
+  .helper .hc b{color:#4338ca;margin-right:4px}
+  .helper .hb{font-size:12.5px;color:#92400e;background:#fffbeb;border-radius:8px;padding:5px 10px;margin-bottom:6px}
+  .helper .hd{display:flex;align-items:center;gap:8px;font-size:13px;margin-bottom:3px}
+  .helper .hd button,.helper .vr button{font:inherit;font-size:12px;font-weight:700;padding:3px 12px;border-radius:8px;border:1px solid #a5b4fc;background:#eef2ff;color:#4338ca;cursor:pointer;margin-left:auto}
+  .helper .hd .ok{margin-left:auto;font-size:12px;color:var(--good);font-weight:700}
+  .helper pre{margin:0;white-space:pre-wrap;word-break:break-word;font:inherit;font-size:13.5px;background:#f8fafc;border-radius:10px;padding:8px 10px}
+  .helper .vr{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+  .helper .vr button{margin-left:0}
+  .helper .vt{font-size:12px;color:var(--sub);margin-top:4px}
+  .helper .hk{font-size:12.5px;background:#fff7ed;border-radius:10px;padding:6px 10px;margin-top:8px;color:#9a3412}
+  .helper .hk.good{background:#f0fdf4;color:#166534}
+  .hintline{font-size:12.5px;margin-top:4px;color:var(--warn)}
+  .hintline.ok{color:var(--good)}
+  .calc{background:#f0fdfa;border:1px solid #99f6e4;border-radius:12px;padding:10px 12px;margin:6px 0 10px}
+  .calc .big{font-size:18px;font-weight:900;color:#0f766e}
+  .doc{background:#fff;border:1px solid #cbd5e1;box-shadow:0 4px 16px #0002;padding:22px 26px;margin:8px 0 16px;font-size:13px}
+  .doc h3{text-align:center;font-size:20px;margin:0 0 10px;letter-spacing:.2em}
+  .doc table{border-collapse:collapse;width:100%}
+  .doc td,.doc th{border:1px solid #444;padding:6px 8px;vertical-align:top;text-align:left}
+  .doc th{background:#e9ecef;font-size:13px}
+  .doc td.a{min-height:70px;white-space:pre-wrap;word-break:break-word;font-size:12.5px}
+  .doc td.empty{color:#aaa}
+  .final{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0}
+  .final button{font:inherit;font-weight:800;padding:12px 22px;border-radius:12px;border:1px solid var(--line);background:#fff;cursor:pointer;font-size:15px}
+  .final .go{background:linear-gradient(90deg,#2563eb,#7c3aed);color:#fff;border:0;font-size:16px;box-shadow:0 6px 18px #4f46e544}
+  .chk{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:6px;margin:8px 0}
+  .chk div{font-size:13px;padding:5px 10px;border-radius:10px;background:#f1f5f9}
+  .chk div.ok{background:#dcfce7;color:#166534} .chk div.no{background:#fee2e2;color:#991b1b}
+  nav{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);padding:10px 16px;display:flex;justify-content:center;gap:10px;z-index:5}
+  nav .in{max-width:980px;width:100%;display:flex;gap:10px;align-items:center}
+  nav button{font:inherit;font-weight:800;padding:10px 26px;border-radius:12px;border:1px solid var(--line);background:#fff;cursor:pointer}
+  nav button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+  nav button:disabled{opacity:.35;cursor:default}
+  nav .mid{flex:1;text-align:center;font-size:13px;color:var(--sub)}
+  @media (max-width:760px){ .row2,.row3,.row4{grid-template-columns:1fr} .steps{flex-direction:column} .tip{margin-left:0} }
+  .plancard{border:2px solid #0f766e} .srcstat{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}.srcstat span,#planView .pst i{font-style:normal;font-size:12.5px;padding:3px 9px;border-radius:99px;border:1px solid #cbd5e1;background:#fff}.srcstat .ok,#planView .pst .ok{color:#0f766e;border-color:#0f766e}.srcstat .no,#planView .pst .no{color:#b45309;border-color:#d97706}.btnlike{display:inline-block;padding:9px 14px;border:1px solid #94a3b8;border-radius:8px;background:#fff;cursor:pointer;font-size:14px}
+  #planView{display:none;position:fixed;inset:0;z-index:50;background:#e5e7eb;overflow:auto}#planView.on{display:block}
+  #planView .pbar{position:sticky;top:0;z-index:2;display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:10px 16px;background:#fff;border-bottom:1px solid #cbd5e1}#planView .pst{display:flex;flex-wrap:wrap;gap:5px}
+  #planView .pdoc{max-width:860px;margin:18px auto;background:#fff;padding:36px 44px;box-shadow:0 2px 12px rgba(0,0,0,.15);font-size:14px;line-height:1.7;color:#111}
+  .ptitle{text-align:center;font-size:24px;margin:0 0 6px}.pnote{font-size:12px;color:#b45309;margin-bottom:14px;text-align:center}
+  .ph1{font-size:17px;margin:22px 0 8px;padding:6px 10px;background:#dde7f0;color:#0f3d63;border-radius:4px}.ph2{font-size:15px;margin:14px 0 4px;color:#0f766e}.ph3{font-size:14px;margin:10px 0 3px}
+  .pp{border:1px solid #888;padding:8px 10px;white-space:pre-wrap;word-break:keep-all}.pp.pe{color:#999;background:#fafafa}
+  .ptb{width:100%;border-collapse:collapse;margin:6px 0;font-size:13px}.ptb th,.ptb td{border:1px solid #888;padding:5px 8px;text-align:left;vertical-align:top;white-space:pre-wrap}.ptb th{background:#e9ecef}.ptb.kv th{width:22%}
+  @media print{ body.plan-open > *:not(#planView){display:none !important} #planView{position:static;background:#fff;overflow:visible;display:block !important} #planView .pbar{display:none} #planView .pdoc{box-shadow:none;margin:0;padding:0;max-width:none} .ph1,.ph2,.ph3{break-after:avoid} .ptb tr,.pp{break-inside:avoid} }
+  @media print{ header,.steps,.prog,.intro,.card,nav,.final,.chk,.nodoc{display:none !important} body{background:#fff} .wrap{padding:0;max-width:none} .doc{border:0;box-shadow:none;padding:0;margin:0} @page{size:A4;margin:14mm} }
+  #ver{background:#dc2626;color:#fff;border-radius:99px;padding:2px 11px;font-size:12.5px;font-weight:700;white-space:nowrap}
+</style>
+</head>
+<body>
+<header>
+  <h1>💭 아이데이션 GUIDE</h1><span class="st" id="status">자동 저장됨</span>
+  <span class="sp"></span>
+  <button id="btnPlan" data-plan="open" style="background:linear-gradient(90deg,#0369a1,#7c3aed);color:#fff;border:0;font-weight:700">📑 사업계획서 미리보기</button>
+  <button id="btnDir">📁 저장 폴더 지정</button>
+  <button id="btnSave">💾 파일로 저장</button>
+  <label class="btn">📂 불러오기<input type="file" id="fileLoad" accept=".json" hidden></label>
+  <button id="btnReset">🗑 새로 시작</button>
+  <span id="ver" title="파일로 저장할 때마다 1씩 올라갑니다">v0</span>
+</header>
+<div class="steps" id="steps"></div>
+<div class="wrap">
+  <div class="prog"><span id="progtxt"></span><div class="bar"><i id="progbar"></i></div></div>
+  <div id="page"></div>
+</div>
+<nav><div class="in"><button id="prev">← 이전</button><span class="mid" id="mid"></span><button id="next" class="primary">다음 →</button></div></nav>
+
+<script src="jszip.min.js"></script>
+<script>
+const KEY = "problem-helper-v1";
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const status = $("status");
+
+// 한국어 조사 선택 (받침 유무)
+const NUMBATCHIM = "0136 78".replace(" ", "");
+function batchim(w){ w = String(w || "").trim().replace(/[)\]」』”’"'.!?\s]+$/, ""); const ch = w.slice(-1); if(!ch) return false; if(/[0-9]/.test(ch)) return "013678".includes(ch); const c = ch.charCodeAt(0); if(c >= 0xAC00 && c <= 0xD7A3) return (c - 0xAC00) % 28 !== 0; return /[lmnLMN]/.test(ch) && false; }
+const J = (w, a, b) => w + (batchim(w) ? a : b);        // 이/가, 은/는, 을/를
+const sent = s => { s = String(s || "").trim(); if(!s) return ""; return /[.!?。]$/.test(s) ? s : s + "."; };
+
+// ───── 항목 정의 (첨부 양식의 순서·제목 그대로) ─────
+const ITEMS = [
+ {no:1, title:"아이템을 생각하게 된 동기(이유/계기)", tip:"‘왜 이 아이템이 떠올랐는지’를 이야기처럼 풀어 쓰는 칸이에요. 아래 4개 질문에 짧게만 답하면 문장이 자동으로 만들어집니다.", out:"m_text",
+  qs:[["m_when","① 언제, 어디서 문제를 발견했나요?","예) 점심시간에 학교 식당 앞에서",["등굣길 버스 정류장에서","집에서 가족을 도와드리다가","아르바이트를 하면서","여행을 가서"]],
+      ["m_who","② 누가 불편을 겪었나요?","예) 저와 친구들이",["저와 가족이","같은 학과 친구들이","동네 어르신들이","직장인들이"]],
+      ["m_pain","③ 어떤 불편·손해가 있었나요? (숫자가 있으면 더 좋아요)","예) 줄을 25분씩 서야 했고 고를 수 있는 메뉴도 적었습니다",["시간이 오래 걸렸습니다(N분)","비용이 부담되었습니다(N원)","원하는 것을 구하기 어려웠습니다","안전·위생이 걱정되었습니다"]],
+      ["m_why","④ 그래서 어떤 생각이 들었나요?","예) 누구나 빠르게 해결할 수 있는 서비스가 필요하다고 생각했습니다",["직접 해결해 보고 싶었습니다","비슷한 어려움을 겪는 사람이 많을 것이라고 생각했습니다","더 나은 방법이 있을 것이라고 느꼈습니다"]]]},
+ {no:2, title:"아이템(아이디어)에 포함해야 할 중요한 기능(장점)", tip:"기능은 ‘이름’, 장점은 ‘고객이 얻는 이익’으로 나눠 적으면 쉬워요. 3개까지 적어 보세요(1개만 필수).", out:"f_text", custom:"features"},
+ {no:3, title:"비슷하거나 개선해야 할 기존 아이템의 문제점/불편한점/애로사항", tip:"지금 사람들이 쓰는 비슷한 제품·서비스를 먼저 떠올리고, 어떤 점이 아쉬운지 골라 보세요.", out:"p_text", custom:"existing"},
+ {no:4, title:"해결방안", tip:"3번에서 찾은 문제 하나하나에 ‘우리는 이렇게 해결한다’를 짝지어 적으면 논리가 깔끔해져요.", out:"s_text", custom:"solution"},
+ {no:5, title:"진출하고자 하는 시장의 규모와 구매할 고객은?", tip:"‘누가 살지’ 그리고 ‘시장이 얼마나 클지’를 간단한 곱셈으로 추정해 보는 칸이에요. 계산기가 도와드려요.", out:"c_text", custom:"market"},
+ {no:6, title:"아이템(아이디어) OSP", tip:"OSP는 One Sentence Pitch, 즉 ‘한 문장 소개’예요. 네 칸만 채우면 한 문장이 완성됩니다.", out:"o_text", custom:"osp"}
+];
+const PAGES = [
+ {name:"1단계", sub:"기본 정보 · 동기 · 중요한 기능", items:[0, 1], head:true},
+ {name:"2단계", sub:"기존 아이템의 문제점 · 해결방안", items:[2, 3]},
+ {name:"3단계", sub:"시장·고객 · OSP · 문서 저장", items:[4, 5], last:true}
+];
+const PROBLEM_TAGS = [["가격이 비싸요","가격이 비싼 점"],["사용법이 복잡해요","사용법이 복잡한 점"],["품질·성능이 부족해요","품질·성능이 부족한 점"],["시간이 오래 걸려요","시간이 오래 걸리는 점"],["구하기·찾기 어려워요","구하거나 찾기 어려운 점"],["내게 맞는 맞춤이 안 돼요","내게 맞는 맞춤 선택이 어려운 점"],["안전·위생이 걱정돼요","안전·위생이 걱정되는 점"],["디자인·재미가 부족해요","디자인·재미가 부족한 점"],["서비스·응대가 불친절해요","서비스·응대가 불친절한 점"],["환경에 부담이 돼요","환경에 부담이 되는 점"]];
+const tagPhrase = l => (PROBLEM_TAGS.find(x => x[0] === l) || [l, l])[1];
+
+// ───── 데이터 ─────
+const FIELDS = ["team","members","solo","item","m_when","m_who","m_pain","m_why","m_text","f1n","f1b","f2n","f2b","f3n","f3b","f_why","f_text","e1","e2","p_detail","p_text","s_key","sp1","ss1","sp2","ss2","sp3","ss3","s_text","c_who","c_pop","c_pct","c_buy","c_price","c_src","c_text","o_cust","o_prob","o_how","o_eff","o_text"];
+function load(){ try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch(e){ return {}; } }
+let d = load();
+function ensure(){ FIELDS.forEach(k => { if(d[k] === undefined) d[k] = ""; }); d.mode = d.mode === "solo" ? "solo" : "team"; d.tags = Array.isArray(d.tags) ? d.tags : []; d.manual = d.manual || {}; d.page = Math.min(Math.max(+d.page || 0, 0), PAGES.length - 1); }
+ensure();
+let page = d.page;
+
+let timer;
+function showVer(){ const e = document.getElementById("ver"); if(e) e.textContent = "v" + (d.version || 0); }
+function persist(){ showVer();
+  clearTimeout(timer); status.textContent = "저장 중…";
+  timer = setTimeout(() => { try { localStorage.setItem(KEY, JSON.stringify(d)); status.textContent = "✔ 자동 저장됨 " + new Date().toLocaleTimeString("ko-KR"); } catch(e){ status.textContent = "⚠ 이 화면에서는 자동 저장이 안 돼요 — 💾 파일로 저장을 눌러 주세요"; } }, 300);
+}
+
+// ───── 저장 폴더 ─────
+let dirHandle = null, dirAsked = false;
+const idb = () => new Promise((res, rej) => { const r = indexedDB.open("workbook-apps", 1); r.onupgradeneeded = () => r.result.createObjectStore("kv"); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); });
+async function idbGet(k){ const db = await idb(); return new Promise((res, rej) => { const q = db.transaction("kv").objectStore("kv").get(k); q.onsuccess = () => res(q.result); q.onerror = () => rej(q.error); }); }
+async function idbSet(k, v){ const db = await idb(); return new Promise((res, rej) => { const q = db.transaction("kv", "readwrite").objectStore("kv").put(v, k); q.onsuccess = () => res(); q.onerror = () => rej(q.error); }); }
+function dirUi(){ $("btnDir").textContent = dirHandle ? "📁 저장 폴더: " + dirHandle.name : "📁 저장 폴더 지정"; }
+async function pickDir(){
+  if(!window.showDirectoryPicker){ alert("이 브라우저는 폴더 지정을 지원하지 않아 파일이 ‘다운로드’ 폴더에 저장됩니다.\nChrome 또는 Edge에서 열어 주세요."); return false; }
+  try { dirHandle = await showDirectoryPicker({id: "problem-save", mode: "readwrite"}); await idbSet("dir-" + KEY, dirHandle); dirUi(); return true; } catch(e){ return false; }
+}
+(async () => { try { dirHandle = (await idbGet("dir-" + KEY)) || null; } catch(e){} dirUi(); })();
+$("btnDir").onclick = pickDir;
+function download(blob, name){ const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = name; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000); }
+async function saveFile(blob, name){
+  if(!dirHandle && !dirAsked && window.showDirectoryPicker){
+    dirAsked = true;
+    if(confirm("저장 파일을 모아 둘 폴더를 지정할까요?\n(권장: 바이브 > 문제인식 폴더. 한 번만 지정하면 이후 저장 파일이 모두 그 폴더에 만들어집니다.)")) await pickDir();
+  }
+  if(dirHandle){
+    try {
+      let p = await dirHandle.queryPermission({mode: "readwrite"});
+      if(p !== "granted") p = await dirHandle.requestPermission({mode: "readwrite"});
+      if(p === "granted"){ const fh = await dirHandle.getFileHandle(name, {create: true}), w = await fh.createWritable(); await w.write(blob); await w.close(); status.textContent = "✔ ‘" + dirHandle.name + "’ 폴더에 저장됨: " + name; return; }
+    } catch(e){}
+  }
+  download(blob, name);
+  status.textContent = "⬇ 다운로드 폴더에 저장됨(저장 폴더 미지정): " + name;
+}
+const who = () => d.mode === "solo" ? (d.solo || "").trim() : (d.team || "").trim();
+const rptName = () => d.mode === "solo" ? "(개인)활동보고서" : "(팀)활동보고서";
+const fname = ext => `${rptName()}_${(who() || d.item || "무제").replace(/[\\/:*?"<>|]/g, "")}.${ext}`;
+
+// ───── 자동 문장 만들기 ─────
+const num = v => { const n = parseFloat(String(v).replace(/,/g, "")); return isNaN(n) ? null : n; };
+const nf = n => Math.round(n).toLocaleString("ko-KR");
+const won = n => n >= 1e8 ? (Math.round(n / 1e6) / 100).toLocaleString("ko-KR") + "억 원" : n >= 1e4 ? nf(n / 1e4) + "만 원" : nf(n) + "원";
+function market(){
+  const pop = num(d.c_pop), pct = num(d.c_pct), buy = num(d.c_buy), price = num(d.c_price);
+  const target = pop !== null && pct !== null ? pop * pct / 100 : null, buyers = target !== null && buy !== null ? target * buy / 100 : null, size = buyers !== null && price !== null ? buyers * price : null;
+  return {pop, pct, buy, price, target, buyers, size};
+}
+// ───── 맥락 분석 ─────
+const clean = s => String(s || "").trim().replace(/[.。!?]+$/, "");
+const firstSeg = s => clean(s).split(/[,，(（]/)[0].trim();
+const NUMRE = /\d[\d,.]*\s*명\s*중\s*\d[\d,.]*\s*명|\d[\d,.]*\s*(?:분|시간|만\s*원|원|억|%|배|건|개|일|가지|회|곳|개월|년|명)/g;
+const nums = text => [...new Set((String(text).match(NUMRE) || []).map(x => x.replace(/\s+/g, " ").trim()))];
+const VAL = {
+  "시간": {verb: "시간을 아끼면서", noun: "시간 절약", re: /시간|분|대기|줄|오래|느린|빠르|기다/g},
+  "비용": {verb: "비용 부담을 줄이면서", noun: "비용 절감", re: /원|비용|가격|비싼|비싸|부담|저렴|할인/g},
+  "안심": {verb: "안심하고", noun: "안심", re: /안전|위생|걱정|불안|안심|위험/g},
+  "편의": {verb: "편리하게", noun: "편리함", re: /복잡|불편|어려|찾기|번거|구하기|맞춤/g}
+};
+function ctx(){
+  const blob = [d.m_when, d.m_who, d.m_pain, d.m_why, d.p_detail, ...d.tags.map(tagPhrase), d.sp1, d.sp2, d.sp3, d.f1b, d.f2b, d.f3b].join(" ");
+  let best = null, bs = 0; Object.entries(VAL).forEach(([k, v]) => { const n = (blob.match(v.re) || []).length; if(n > bs){ bs = n; best = k; } });
+  const val = VAL[best || "편의"];
+  const probs = [...d.tags.map(tagPhrase), d.sp1, d.sp2, d.sp3].map(clean).filter(Boolean);
+  const feats = [d.f1n, d.f2n, d.f3n].map(clean).filter(Boolean);
+  const cust = firstSeg(d.o_cust) || firstSeg(d.c_who);
+  return {val, valKey: best, cust, probs: [...new Set(probs)], feats, nums: nums([d.m_pain, d.p_detail, d.ss1, d.ss2, d.ss3].join(" ")), item: clean(d.item)};
+}
+const COMPOSE = {
+  m_text(){
+    const c = ctx(), p = [];
+    const frag = [d.m_when, d.m_who, d.m_pain].map(clean).filter(Boolean).join(" ");
+    if(frag){
+      p.push(sent(frag));
+      p.push(c.nums[0] ? `특히 ‘${c.nums[0]}’${batchim(c.nums[0]) ? "이" : ""}라는 수치는 이 불편이 어쩌다 한 번 생기는 일이 아니라 반복되는 문제임을 보여 주었습니다.` : "이러한 불편은 한두 번에 그치지 않고 일상에서 반복되고 있었습니다.");
+      if(c.cust) p.push(`주변을 살펴보니 ${c.cust}도 비슷한 어려움을 겪고 있어, 개인의 불편을 넘어 많은 사람이 공감하는 문제라고 판단했습니다.`);
+      p.push(clean(d.m_why) ? sent(d.m_why) : "이 문제를 해결할 새로운 방법이 필요하다고 느꼈습니다.");
+      if(c.item) p.push(`이에 ${J(c.item, "을", "를")} 직접 기획하게 되었습니다.`);
+    } else if(clean(d.m_why)) p.push(sent(d.m_why));
+    return p.join(" ");
+  },
+  f_text(){
+    const c = ctx(), fs = [1, 2, 3].map(i => [clean(d["f" + i + "n"]), clean(d["f" + i + "b"])]).filter(f => f[0]);
+    if(!fs.length) return clean(d.f_why) ? "▶ " + sent(d.f_why) : "";
+    const lines = fs.map((f, i) => `기능 ${i + 1}. ${f[0]}${f[1] ? " — " + sent(f[1]) : ""}`);
+    const link = c.probs[0] ? `‘${c.probs[0]}’ 등 기존 아이템의 한계를 직접 보완하도록` : "기존 아이템의 불편을 직접 보완하도록";
+    lines.push(`▶ 이 기능들은 ${link} 설계했으며, ${c.cust ? J(c.cust, "이", "가") + " " : "사용자가 "}${c.val.verb} 원하는 결과를 얻을 수 있게 합니다.`);
+    if(clean(d.f_why)) lines.push("▶ " + sent(d.f_why));
+    return lines.join("\n");
+  },
+  p_text(){
+    const c = ctx(), names = [d.e1, d.e2].map(clean).filter(Boolean), p = [];
+    if(names.length) p.push(`비슷한 기존 아이템으로는 ${J(names.join(", "), "이", "가")} 있습니다.`);
+    if(c.probs.length){ const ph = d.tags.length ? d.tags.map(tagPhrase) : c.probs; p.push(`하지만 ${ph.slice(0, -1).length ? ph.slice(0, -1).join(", ") + ", " : ""}${J(ph[ph.length - 1], "이", "가")} 한계로 남아 있어 ${c.cust ? c.cust + "의 " : ""}불편을 충분히 해결하지 못하고 있습니다.`); }
+    if(clean(d.p_detail)) p.push(sent(d.p_detail));
+    if(p.length) p.push(`그 결과 이용자는 ${c.val.noun === "시간 절약" ? "시간" : c.val.noun === "비용 절감" ? "비용" : "불편"}의 부담을 그대로 감수해야 하며, 이를 개선할 새로운 대안이 필요합니다.`);
+    return p.join(" ");
+  },
+  s_text(){
+    const c = ctx(), rows = [1, 2, 3].map(i => [clean(d["sp" + i]), clean(d["ss" + i])]).filter(r => r[0] || r[1]), out = [];
+    if(clean(d.s_key)) out.push(`${c.item ? J(c.item, "은", "는") : "본 아이템은"} ‘${clean(d.s_key)}’${batchim(clean(d.s_key)) ? "이" : ""}라는 핵심 아이디어로 문제를 해결합니다.`);
+    rows.forEach((r, i) => out.push(`${["①", "②", "③"][i]} ${r[0] || "(문제)"}  →  ${r[1] || "(해결)"}`));
+    if(c.feats.length) out.push(`이를 위해 ${c.feats.join(", ")} 기능을 제공합니다.`);
+    if(out.length) out.push(`이를 통해 ${c.cust ? J(c.cust, "이", "가") : "고객이"} ${c.val.verb} 원하는 결과를 얻을 수 있습니다.`);
+    return out.join("\n");
+  },
+  c_text(){
+    const m = market(), c = ctx(), out = [];
+    if(clean(d.c_who)) out.push(`주요 구매 고객은 ${clean(d.c_who)}입니다.`);
+    if(m.target !== null){
+      let s = `전체 ${nf(m.pop)}명 중 ${m.pct}%인 약 ${nf(m.target)}명이 우리 아이템의 대상입니다.`;
+      if(m.buyers !== null) s += ` 보수적으로 ${m.buy}%만 구매한다고 가정해도 약 ${nf(m.buyers)}명의 고객을 확보할 수 있습니다.`;
+      out.push(s);
+    }
+    if(m.size !== null) out.push(`1인당 연 ${nf(m.price)}원을 지출한다면 연 약 ${won(m.size)} 규모의 시장이 형성되며, 대상 범위를 넓히면 성장 여지는 더 커집니다.`);
+    if(out.length && m.size === null) out.push("(전체 인원·비율·구매액을 계산기에 넣으면 시장 규모 문장이 완성됩니다.)");
+    if(clean(d.c_src)) out.push(`(자료 출처: ${clean(d.c_src)})`);
+    return out.join("\n");
+  },
+  o_text(){
+    const v = OSP_VARIANTS(); return v[(d.ospVar || 0) % v.length] || "";
+  }
+};
+function OSP_VARIANTS(){
+  const c = ctx(), cust = clean(d.o_cust), prob = clean(d.o_prob), how = clean(d.o_how), eff = clean(d.o_eff), item = c.item;
+  if(![cust, prob, how, eff].some(Boolean)) return [""];
+  const sub = item ? J(item, "은", "는") : "이 아이템은";
+  const viaHow = how ? how + (batchim(how) ? "으로" : "로") : "(방법)으로";
+  const v0 = `${cust ? J(cust, "이", "가") : "(고객)이"} ${prob || "(문제)"} 때, ${sub} ${viaHow} ${eff ? J(eff, "을", "를") : "(효과)를"} 제공합니다.`;
+  const v1 = `${sub} ${viaHow} ${cust ? cust + "의 " : ""}${c.val.noun} 문제를 해결하고 ${eff ? J(eff, "을", "를") : "(효과)를"} 제공하는 아이템입니다.`;
+  const v2 = `${cust ? cust + " 맞춤 " : ""}${how || "(방법)"} — ${eff || "(효과)"}.`;
+  return [v0, v1, v2];
+}
+
+const SRC_FIELDS = {m_text:["m_when","m_who","m_pain","m_why"], f_text:["f1n","f1b","f2n","f2b","f3n","f3b","f_why"], p_text:["e1","e2","p_detail","tags"], s_text:["s_key","sp1","ss1","sp2","ss2","sp3","ss3"], c_text:["c_who","c_pop","c_pct","c_buy","c_price","c_src"], o_text:["o_cust","o_prob","o_how","o_eff","item"]};
+function recompose(out){ if(!d.manual[out]){ d[out] = COMPOSE[out](); const el = document.querySelector(`[data-k="${out}"]`); if(el && el !== document.activeElement) el.value = d[out]; updateHints(out); } }
+function allRecompose(){ Object.keys(COMPOSE).forEach(recompose); }
+
+// 점검 힌트
+function hint(out){
+  const t = (d[out] || "").trim(), n = t.replace(/\s/g, "").length, dig = /\d/.test(t);
+  if(!n) return ["아직 비어 있어요. 위 질문에 답하면 자동으로 채워져요.", false];
+  const msgs = [];
+  if(n < 30) msgs.push("조금 더 구체적으로 써 보세요(30자 이상 권장)");
+  if(["m_text", "p_text", "c_text"].includes(out) && !dig) msgs.push("숫자(시간·금액·인원)가 한 개 들어가면 더 설득력 있어요");
+  if(out === "o_text" && n > 120) msgs.push("OSP는 한 문장이 좋아요. 너무 길면 줄여 보세요");
+  if(out === "c_text" && !/시장 규모/.test(t)) msgs.push("계산기로 예상 시장 규모를 넣어 보세요");
+  if(n > 380) msgs.push("한 페이지 양식에 들어가려면 380자 이내를 권장해요");
+  return msgs.length ? ["💡 " + msgs.join(" · "), false] : ["✔ 좋아요! 내용이 충분해요", true];
+}
+function updateHints(out){ const el = document.querySelector(`[data-h="${out}"]`); if(el){ const [m, ok] = hint(out); el.textContent = m; el.className = "hintline" + (ok ? " ok" : ""); } const c = document.querySelector(`[data-cnt="${out}"]`); if(c) c.textContent = (d[out] || "").replace(/\s/g, "").length + "자"; updateProgress(); }
+const done = out => (d[out] || "").trim().length >= 10;
+function updateProgress(){
+  const n = ITEMS.filter(it => done(it.out)).length;
+  $("progtxt").textContent = `작성 진행 ${n} / 6 항목`; $("progbar").style.width = (n / 6 * 100) + "%";
+  document.querySelectorAll(".card[data-out]").forEach(c => c.classList.toggle("done", done(c.dataset.out)));
+  document.querySelectorAll("#steps button").forEach((b, i) => b.classList.toggle("done", PAGES[i].items.every(k => done(ITEMS[k].out))));
+}
+
+// ───── 화면 만들기 ─────
+const qHtml = ([k, label, ph, chips]) => `<div class="q"><label>${label}</label><input type="text" data-k="${k}" value="${esc(d[k])}" placeholder="${esc(ph)}">${chips ? `<div class="chips"><span>✨ 예시</span>${chips.map((c, i) => `<button type="button" data-chip="${k}" data-i="${i}">${esc(c)}</button>`).join("")}</div>` : ""}</div>`;
+const CHIPSTORE = {}; ITEMS.forEach(it => (it.qs || []).forEach(q => CHIPSTORE[q[0]] = q[3] || []));
+Object.assign(CHIPSTORE, {f1n: ["맞춤 추천","사전 주문","실시간 알림","간편 결제","가격 비교","후기·평점"], f2n: ["맞춤 추천","사전 주문","실시간 알림","간편 결제","가격 비교","후기·평점"], f3n: ["맞춤 추천","사전 주문","실시간 알림","간편 결제","가격 비교","후기·평점"],
+  s_key: ["필요한 순간에 바로 쓸 수 있게 만든다","복잡한 과정을 한 번에 끝낸다","고객에게 맞춰 골라 준다"], c_who: ["20대 대학생","30대 직장인","1인 가구","초등학생 학부모","60대 이상 어르신"], c_src: ["통계청 인구통계(연도)","자체 설문조사(n=명)","관련 협회·연구원 보고서"],
+  o_cust: ["바쁜 직장인","대학생","1인 가구","초등학생 학부모","어르신"], o_prob: ["점심 메뉴를 고르느라 시간이 부족할","혼자 사는 집 관리가 어려울","원하는 정보를 찾기 힘들","가격 때문에 부담될"], o_how: ["맞춤 추천 서비스","구독 배달","간편 예약 앱","한 번에 비교해 주는 플랫폼"], o_eff: ["시간 절약","합리적인 가격","안심","편리함"]});
+const outHtml = (it) => `<div class="out"><div class="oh">📝 완성된 답변 (자동 작성 · 직접 고칠 수 있어요)<span data-cnt="${it.out}">0자</span><button type="button" data-redo="${it.out}">↻ 다시 자동 작성</button><button type="button" data-help="${it.out}" class="hb2">${helpOpen.has(it.out) ? "▲ 도움 닫기" : "✨ 도움받기"}</button></div><textarea data-k="${it.out}" placeholder="위 질문에 답하면 여기에 문장이 만들어져요. 직접 써도 됩니다.">${esc(d[it.out])}</textarea><div class="hintline" data-h="${it.out}"></div><div data-helpbox="${it.out}">${helpOpen.has(it.out) ? helpHtml(it.out) : ""}</div></div>`;
+function customHtml(it){
+  switch(it.custom){
+    case "features": return [1, 2, 3].map(i => `<div class="fn"><b>기능 ${i}</b> ${i === 1 ? "(필수)" : "(선택)"}<div class="row2"><div class="q" style="margin:4px 0 0"><label style="font-size:12.5px">기능 이름</label><input type="text" data-k="f${i}n" value="${esc(d["f" + i + "n"])}" placeholder="예) 사전 주문"></div><div class="q" style="margin:4px 0 0"><label style="font-size:12.5px">이 기능의 장점 (고객이 얻는 이익)</label><input type="text" data-k="f${i}b" value="${esc(d["f" + i + "b"])}" placeholder="예) 줄을 서지 않고 바로 받을 수 있어요"></div></div>${i === 1 ? `<div class="chips"><span>✨ 예시</span>${CHIPSTORE.f1n.map((c, j) => `<button type="button" data-chip="f1n" data-i="${j}">${esc(c)}</button>`).join("")}</div>` : ""}</div>`).join("")
+      + qHtml(["f_why", "가장 중요한 기능은 무엇이고, 왜 중요한가요? (선택)", "예) 사전 주문이 가장 중요합니다. 기다리는 시간이 가장 큰 불편이었기 때문입니다", null]);
+    case "existing": return `<div class="row2">${qHtml(["e1", "비슷한 기존 아이템 ①", "예) 학교 식당, 편의점 도시락", null])}${qHtml(["e2", "비슷한 기존 아이템 ② (선택)", "예) 배달 앱", null])}</div>
+      <div class="q"><label>어떤 점이 아쉬운가요? <small>(해당하는 것을 모두 눌러 보세요)</small></label><div class="tags">${PROBLEM_TAGS.map(([t]) => `<label class="${d.tags.includes(t) ? "on" : ""}"><input type="checkbox" data-tag="${esc(t)}" ${d.tags.includes(t) ? "checked" : ""}>${esc(t)}</label>`).join("")}</div></div>
+      ${qHtml(["p_detail", "가장 큰 문제점을 구체적으로 설명해 주세요 (숫자·사례가 있으면 좋아요)", "예) 점심시간에는 평균 25분을 기다려야 하고 메뉴가 3가지뿐입니다", ["평균 N분을 기다려야 합니다","한 끼에 N원 이상이 듭니다","N명 중 N명이 불편하다고 답했습니다"]])}`;
+    case "solution": return qHtml(["s_key", "해결의 핵심 아이디어를 한 줄로 쓰면?", "예) 미리 주문하고 시간에 맞춰 받는 구독 도시락", null])
+      + `<div class="q"><label>문제 → 해결 짝짓기 <small>(최대 3개 · 3번의 문제점을 불러와 쓰면 편해요)</small> <button type="button" data-fix="loadProblems" style="font:inherit;font-size:12px;padding:1px 10px;border-radius:8px;border:1px solid #a5b4fc;background:#fff;cursor:pointer;color:#4338ca;font-weight:700">⬇ 3번에서 문제점 불러오기</button></label>${[1, 2, 3].map(i => `<div class="row2" style="margin-bottom:6px"><input type="text" data-k="sp${i}" value="${esc(d["sp" + i])}" placeholder="기존 문제 ${i} (예: 줄이 길어요)"><input type="text" data-k="ss${i}" value="${esc(d["ss" + i])}" placeholder="우리의 해결 ${i} (예: 사전 주문으로 대기 0분)"></div>`).join("")}</div>`;
+    case "market": { const m = market(); return qHtml(["c_who", "① 누가 살까요? (구매할 고객을 구체적으로)", "예) 학교 근처에 사는 20대 대학생, 점심값을 직접 쓰는 사람", null])
+      + `<div class="q"><label>② 시장 규모 간단 계산기 <small>(대략적인 추정이면 충분해요)</small></label><div class="row4">
+        <div><small>전체 인원(명)</small><input type="number" min="0" data-k="c_pop" value="${esc(d.c_pop)}" placeholder="예) 12000"></div>
+        <div><small>우리 고객에 해당하는 비율(%)</small><input type="number" min="0" max="100" data-k="c_pct" value="${esc(d.c_pct)}" placeholder="예) 40"></div>
+        <div><small>실제로 살 비율(%)</small><input type="number" min="0" max="100" data-k="c_buy" value="${esc(d.c_buy)}" placeholder="예) 10"></div>
+        <div><small>1인당 1년 구매액(원)</small><input type="number" min="0" data-k="c_price" value="${esc(d.c_price)}" placeholder="예) 300000"></div></div>
+        <div class="calc" id="calcbox">${calcHtml(m)}</div></div>`
+      + qHtml(["c_src", "③ 숫자는 어디서 구했나요? (출처)", "예) 학교 학생 수 — 학교 홈페이지(2025)", null]); }
+    case "osp": return `<div class="row2">${qHtml(["o_cust", "① 누구에게?", "예) 바쁜 직장인", null])}${qHtml(["o_prob", "② 어떤 문제가 있을 때? (‘~할’로 끝내기)", "예) 점심 메뉴를 고르느라 시간이 부족할", null])}</div><div class="row2">${qHtml(["o_how", "③ 어떤 방법으로? (‘~로/으로’ 앞부분)", "예) 맞춤 추천 구독 도시락", null])}${qHtml(["o_eff", "④ 어떤 효과를? (명사형)", "예) 시간 절약과 건강한 한 끼", null])}</div>
+      <div class="q"><label>📌 아이템 이름은 1단계에서 입력한 이름이 자동으로 들어가요. <button type="button" data-fix="ospnext" style="font:inherit;font-size:12px;padding:1px 10px;border-radius:8px;border:1px solid #a5b4fc;background:#fff;cursor:pointer;color:#4338ca;font-weight:700">🔁 다른 표현 보기</button></label></div>`;
+  }
+  return "";
+}
+function calcHtml(m){
+  if(m.target === null && m.buyers === null && m.size === null) return "<small>숫자를 넣으면 자동으로 계산돼요.</small>";
+  return `대상 고객 <b>${m.target === null ? "-" : nf(m.target) + "명"}</b> → 구매 예상 <b>${m.buyers === null ? "-" : nf(m.buyers) + "명"}</b> → 연간 시장 규모 <span class="big">${m.size === null ? "-" : "약 " + won(m.size)}</span>`;
+}
+function cardHtml(k){
+  const it = ITEMS[k];
+  return `<div class="card" data-out="${it.out}"><h2><span class="n">${it.no}</span>${esc(it.title)}</h2><p class="tip">${esc(it.tip)}</p>${it.qs ? it.qs.map(qHtml).join("") : customHtml(it)}${outHtml(it)}</div>`;
+}
+function infoHtml(){
+  const solo = d.mode === "solo";
+  return `<div class="card"><h2><span class="n">★</span>참여 형태 · 이름 · 아이템 이름</h2><p class="tip">개인으로 참여하는지, 팀으로 참여하는지 먼저 골라 주세요. 양식 맨 위에 들어가는 정보예요.</p>
+   <div class="tags" style="margin-bottom:10px"><label class="${solo ? "" : "on"}"><input type="radio" name="mode" data-mode="team" ${solo ? "" : "checked"}>👥 팀으로 참여</label><label class="${solo ? "on" : ""}"><input type="radio" name="mode" data-mode="solo" ${solo ? "checked" : ""}>🙋 개인으로 참여</label></div>
+   ${solo ? qHtml(["solo", "참여자 이름", "예) 홍길동", null]) : `<div class="row2">${qHtml(["team", "팀 이름", "예) 하루", null])}${qHtml(["members", "팀원 이름 (쉼표로 구분)", "예) 홍길동, 김철수, 이영희", null])}</div>`}
+   ${qHtml(["item", "아이템(아이디어) 이름", "예) 새벽 조리 구독 도시락 ‘하루담’", null])}</div>`;
+}
+function docHtml(){
+  const rows = ITEMS.map(it => { const t = (d[it.out] || "").trim(); return `<tr><th>${it.no}. ${esc(it.title)}</th></tr><tr><td class="a ${t ? "" : "empty"}" style="height:${it.no === 2 || it.no === 6 ? 70 : 90}px">${t ? esc(t) : "(작성 전)"}</td></tr>`; }).join("");
+  return `<div class="doc" id="doc"><h3>${rptName()}</h3><table>${d.mode === "solo" ? `<tr><td colspan="2"><b>참여자명 ( ${esc(d.solo) || "&nbsp;&nbsp;&nbsp;"} )</b> <span style="color:#666">· 개인</span></td></tr>` : `<tr><td style="width:45%"><b>( ${esc(d.team) || "&nbsp;&nbsp;&nbsp;"} )팀</b></td><td><b>참여자명 ( ${esc(d.members) || "&nbsp;&nbsp;&nbsp;"} )</b></td></tr>`}<tr><td colspan="2"><b>아이템(아이디어)</b>&nbsp;&nbsp;${esc(d.item) || "&nbsp;"}</td></tr></table><table style="margin-top:-1px">${rows}</table></div>`;
+}
+function render(){
+  d.page = page;
+  const p = PAGES[page];
+  $("steps").innerHTML = PAGES.map((x, i) => `<button class="${i === page ? "on" : ""}" data-go="${i}"><b>${x.name}</b><small>${x.sub}</small></button>`).join("");
+  let html = "";
+  if(page === 0) html += `<div class="intro">처음 쓰는 분도 괜찮아요! 질문에 짧게 답하면 문장이 <b>자동으로 만들어져요</b>. 어떤 느낌인지 궁금하면 <button data-fix="example">💡 예시로 채워서 구경하기</button></div>` + infoHtml();
+  html += p.items.map(cardHtml).join("");
+  if(p.last){
+    const miss = ITEMS.filter(it => !done(it.out));
+    html += `<div class="card nodoc"><h2><span class="n">✓</span>완성 점검 · 문서로 저장</h2><p class="tip">아래는 저장될 문서(${rptName()} 양식)의 미리보기예요. 비어 있는 항목은 문서에도 비어서 나옵니다.</p>
+      <div class="chk">${ITEMS.map(it => `<div class="${done(it.out) ? "ok" : "no"}">${done(it.out) ? "✔" : "✖"} ${it.no}. ${esc(it.title.length > 22 ? it.title.slice(0, 22) + "…" : it.title)}</div>`).join("")}</div>
+      <div class="final"><button class="go" data-fix="docx">📄 문서로 저장 (Word)</button><button data-fix="print">🖨 인쇄 / PDF로 저장</button></div></div>` + docHtml();
+  }
+  $("page").innerHTML = html;
+  $("prev").disabled = page === 0; $("next").style.visibility = page === PAGES.length - 1 ? "hidden" : "visible";
+  $("mid").textContent = `${page + 1} / ${PAGES.length} 화면`;
+  Object.keys(COMPOSE).forEach(updateHints);
+  window.scrollTo({top: 0});
+  persist();
+}
+function refreshDoc(){ const el = $("doc"); if(el) el.outerHTML = docHtml(); }
+
+// ───── 이벤트 ─────
+function onField(k, v){
+  d[k] = v;
+  if(Object.keys(COMPOSE).includes(k)){ d.manual[k] = true; updateHints(k); }
+  allRecompose();   // 다른 항목의 내용이 바뀌면 맥락이 달라지므로 자동 작성 문장도 함께 갱신
+  refreshHelps();
+  if(["c_pop", "c_pct", "c_buy", "c_price"].includes(k)){ const b = $("calcbox"); if(b) b.innerHTML = calcHtml(market()); }
+  refreshDoc(); persist();
+}
+document.addEventListener("input", e => { const t = e.target; if(t.dataset.k) onField(t.dataset.k, t.value); });
+document.addEventListener("change", e => {
+  const t = e.target;
+  if(t.dataset.mode){ d.mode = t.dataset.mode; render(); persist(); return; }
+  if(t.dataset.tag){ const tag = t.dataset.tag; d.tags = t.checked ? [...new Set([...d.tags, tag])] : d.tags.filter(x => x !== tag); t.closest("label").classList.toggle("on", t.checked); recompose("p_text"); refreshDoc(); persist(); }
+});
+document.addEventListener("click", e => {
+  const go = e.target.closest("[data-go]"); if(go){ page = +go.dataset.go; render(); return; }
+  const ap = e.target.closest("[data-apply]"); if(ap){ applyDraft(ap.dataset.apply); ap.textContent = "✔ 적용됨"; return; }
+  const ao = e.target.closest("[data-applyosp]"); if(ao){ d.ospVar = +ao.dataset.applyosp; applyDraft("o_text"); ao.textContent = "✔ 적용됨"; return; }
+  const hp = e.target.closest("[data-help]"); if(hp){ toggleHelp(hp.dataset.help); return; }
+  const chip = e.target.closest("[data-chip]");
+  if(chip){ const k = chip.dataset.chip, text = (CHIPSTORE[k] || [])[+chip.dataset.i]; if(text === undefined) return; const el = document.querySelector(`input[data-k="${k}"]`); if(el){ el.value = text; onField(k, text); el.focus(); } return; }
+  const redo = e.target.closest("[data-redo]"); if(redo){ const o = redo.dataset.redo; d.manual[o] = false; recompose(o); const el = document.querySelector(`[data-k="${o}"]`); if(el) el.value = d[o]; refreshDoc(); persist(); return; }
+  const fx = e.target.closest("[data-fix]"); if(!fx) return; const k = fx.dataset.fix;
+  if(k === "loadProblems"){ const list = d.tags.map(tagPhrase); [1, 2, 3].forEach((i, idx) => { if(!d["sp" + i].trim() && list[idx]) d["sp" + i] = list[idx]; }); if(!list.length) alert("3번에서 ‘아쉬운 점’을 먼저 골라 주세요."); recompose("s_text"); render(); }
+  else if(k === "example"){ if(FIELDS.some(f => String(d[f] || "").trim()) && !confirm("입력한 내용이 예시로 바뀝니다. 계속할까요?")) return; Object.assign(d, EXAMPLE, {manual: {}}); d.tags = [...EXAMPLE_TAGS]; allRecompose(); render(); }
+  else if(k === "ospnext"){ d.ospVar = (d.ospVar || 0) + 1; d.manual.o_text = false; recompose("o_text"); const el = document.querySelector('[data-k="o_text"]'); if(el) el.value = d.o_text; refreshDoc(); persist(); }
+  else if(k === "docx") makeDocx();
+  else if(k === "print") window.print();
+});
+$("prev").onclick = () => { if(page > 0){ page--; render(); } };
+$("next").onclick = () => { if(page < PAGES.length - 1){ page++; render(); } };
+$("btnSave").onclick = async () => { d.version = (d.version || 0) + 1; await saveFile(new Blob([JSON.stringify(d)], {type: "application/json"}), fname("json")); persist(); };
+$("fileLoad").onchange = e => { const f = e.target.files[0]; if(!f) return; const rd = new FileReader(); rd.onload = () => { try { const x = JSON.parse(rd.result); if(x.m_text === undefined) throw 0; d = x; ensure(); page = d.page; render(); alert("불러오기 완료!"); } catch(err){ alert("올바른 파일이 아닙니다."); } }; rd.readAsText(f); e.target.value = ""; };
+$("btnReset").onclick = () => { if(!confirm('입력한 내용이 모두 지워집니다. 먼저 "파일로 저장"을 해두셨나요?\n정말 새로 시작할까요?')) return; d = {}; localStorage.removeItem(KEY); ensure(); page = 0; render(); status.textContent = "초기화됨"; };
+
+const EXAMPLE_TAGS = ["시간이 오래 걸려요", "내게 맞는 맞춤이 안 돼요"];
+const EXAMPLE = {mode:"team", solo:"", team:"하루", members:"홍길동, 김철수", item:"새벽 조리 구독 도시락 ‘하루담’",
+ m_when:"점심시간에 학교 식당 앞에서", m_who:"저와 친구들이", m_pain:"줄을 25분씩 서야 했고 고를 수 있는 메뉴도 3가지뿐이었습니다", m_why:"누구나 빠르게 해결할 수 있는 서비스가 필요하다고 생각했습니다", m_text:"",
+ f1n:"사전 주문", f1b:"줄을 서지 않고 정해진 시간에 바로 받을 수 있어요", f2n:"맞춤 추천", f2b:"알레르기와 취향에 맞는 메뉴를 골라 줘요", f3n:"구독 할인", f3b:"매일 사는 것보다 15% 저렴해요", f_why:"사전 주문이 가장 중요합니다. 기다리는 시간이 가장 큰 불편이었기 때문입니다", f_text:"",
+ e1:"학교 식당", e2:"편의점 도시락", p_detail:"점심시간에는 평균 25분을 기다려야 하고 메뉴가 3가지뿐이어서 학생 20명 중 14명이 불만을 말했습니다.", p_text:"",
+ s_key:"미리 주문하고 시간에 맞춰 받는 구독 도시락", sp1:"시간이 오래 걸려요", ss1:"사전 주문과 시간 지정으로 대기 0분", sp2:"내게 맞는 맞춤이 안 돼요", ss2:"알레르기·취향 설문으로 맞춤 메뉴 추천", sp3:"", ss3:"", s_text:"",
+ c_who:"학교 근처에 사는 20대 대학생, 점심값을 직접 쓰는 사람", c_pop:"12000", c_pct:"40", c_buy:"10", c_price:"300000", c_src:"학교 재학생 수 — 학교 홈페이지(2025), 비율은 자체 설문(n=50)", c_text:"",
+ o_cust:"바쁜 대학생", o_prob:"점심 메뉴를 고르고 줄을 서느라 시간이 부족할", o_how:"맞춤 추천 구독 도시락", o_eff:"시간 절약과 건강한 한 끼", o_text:""};
+
+// ───── 문서 저장(Word) : 첨부 ‘팀 활동 보고서’ 양식 ─────
+async function makeDocx(){
+  const run = (t, o = {}) => `<w:r><w:rPr><w:rFonts w:ascii="맑은 고딕" w:eastAsia="맑은 고딕" w:hAnsi="맑은 고딕"/>${o.b ? "<w:b/>" : ""}<w:sz w:val="${o.sz || 20}"/></w:rPr>${String(t ?? "").split("\n").map((l, i) => `${i ? "<w:br/>" : ""}<w:t xml:space="preserve">${esc(l)}</w:t>`).join("")}</w:r>`;
+  const para = (t, o = {}) => `<w:p><w:pPr>${o.center ? '<w:jc w:val="center"/>' : ""}<w:spacing w:before="${o.before ?? 40}" w:after="${o.after ?? 40}"/></w:pPr>${run(t, o)}</w:p>`;
+  const border = ["top", "left", "bottom", "right", "insideH", "insideV"].map(s => `<w:${s} w:val="single" w:sz="8" w:space="0" w:color="333333"/>`).join("");
+  const W = 10300;
+  const cell = (inner, w, o = {}) => `<w:tc><w:tcPr><w:tcW w:w="${w}" w:type="dxa"/>${o.span ? `<w:gridSpan w:val="${o.span}"/>` : ""}${o.fill ? `<w:shd w:val="clear" w:color="auto" w:fill="${o.fill}"/>` : ""}</w:tcPr>${inner}</w:tc>`;
+  const row = (cells, h) => `<w:tr>${h ? `<w:trPr><w:trHeight w:val="${h}" w:hRule="atLeast"/></w:trPr>` : ""}${cells}</w:tr>`;
+  let rows = (d.mode === "solo" ? row(cell(para("참여자명 ( " + (d.solo || "          ") + " )   · 개인", {b: 1, sz: 22}), W, {span: 2})) : row(cell(para("( " + (d.team || "          ") + " )팀", {b: 1, sz: 22}), 4600) + cell(para("참여자명 ( " + (d.members || "          ") + " )", {b: 1, sz: 22}), W - 4600)))
+    + row(cell(para("아이템(아이디어)   " + (d.item || ""), {b: 1, sz: 22}), W, {span: 2}));
+  ITEMS.forEach(it => { const t = (d[it.out] || "").trim(); rows += row(cell(para(`${it.no}. ${it.title}`, {b: 1, sz: 21}), W, {span: 2, fill: "E9ECEF"})) + row(cell(para(t || " ", {sz: 20}), W, {span: 2}), it.no === 2 || it.no === 6 ? 1400 : 1900); });
+  const body = para(rptName(), {b: 1, sz: 36, center: 1, before: 0, after: 120}) + `<w:tbl><w:tblPr><w:tblW w:w="${W}" w:type="dxa"/><w:tblBorders>${border}</w:tblBorders><w:tblLayout w:type="fixed"/></w:tblPr><w:tblGrid><w:gridCol w:w="4600"/><w:gridCol w:w="${W - 4600}"/></w:tblGrid>${rows}</w:tbl>`;
+  const zip = new JSZip();
+  zip.file("[Content_Types].xml", '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/></Types>');
+  zip.file("_rels/.rels", '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>');
+  zip.file("word/_rels/document.xml.rels", '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"></Relationships>');
+  zip.file("word/document.xml", '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body>' + body + '<w:p/><w:sectPr><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="850" w:right="800" w:bottom="850" w:left="800" w:header="567" w:footer="567" w:gutter="0"/></w:sectPr></w:body></w:document>');
+  await saveFile(await zip.generateAsync({type: "blob", mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"}), fname("docx"));
+}
+
+// ───── 단계별 도움받기 (각 항목 안에서 입력 맥락을 분석해 초안·점검 제안) ─────
+const helpOpen = new Set();
+const BLANK_LABELS = {
+  m_text: [["m_when", "① 언제·어디서"], ["m_who", "② 누가"], ["m_pain", "③ 어떤 불편"], ["m_why", "④ 그래서 든 생각"]],
+  f_text: [["f1n", "기능 1 이름"], ["f1b", "기능 1 장점"], ["f2n", "기능 2 이름"], ["f2b", "기능 2 장점"]],
+  p_text: [["e1", "기존 아이템 이름"], ["tags", "아쉬운 점 선택"], ["p_detail", "구체적인 설명"]],
+  s_text: [["s_key", "핵심 아이디어 한 줄"], ["sp1", "문제 1"], ["ss1", "해결 1"], ["sp2", "문제 2"], ["ss2", "해결 2"]],
+  c_text: [["c_who", "구매 고객"], ["c_pop", "전체 인원"], ["c_pct", "대상 비율"], ["c_buy", "구매 비율"], ["c_price", "1인당 구매액"], ["c_src", "출처"]],
+  o_text: [["o_cust", "① 누구에게"], ["o_prob", "② 어떤 문제"], ["o_how", "③ 어떤 방법"], ["o_eff", "④ 어떤 효과"]]
+};
+function contextChecks(){
+  const c = ctx(), out = [];   // [메시지, 관련 항목들]
+  const pieces = [firstSeg(d.o_cust), firstSeg(d.c_who)].filter(Boolean);
+  if(pieces.length === 2 && !pieces[0].includes(pieces[1].slice(0, 3)) && !pieces[1].includes(pieces[0].slice(0, 3))) out.push([`‘누구에게(OSP)’와 ‘구매 고객(5번)’의 표현이 달라요 → “${pieces[0]}” / “${pieces[1]}”. 하나로 통일하면 설득력이 올라가요.`, ["o_text", "c_text"]]);
+  if(!c.nums.length) out.push(["불편·문제를 보여 주는 숫자(시간·금액·인원)가 없어요. 숫자를 한 개만 넣어도 설득력이 크게 달라져요. (예: 25분, 20명 중 14명)", ["m_text", "p_text"]]);
+  if(d.tags.length && ![d.sp1, d.sp2, d.sp3].some(x => x.trim())) out.push(["3번에서 문제점을 골랐지만 ‘문제 → 해결’이 비어 있어요. ‘⬇ 3번에서 문제점 불러오기’를 눌러 해결 방법을 짝지어 보세요.", ["s_text"]]);
+  const nProb = c.probs.length, nSol = [d.ss1, d.ss2, d.ss3].filter(x => x.trim()).length;
+  if(nProb && nSol && nSol < Math.min(nProb, 3)) out.push([`문제는 ${Math.min(nProb, 3)}개인데 해결은 ${nSol}개만 적혀 있어요. 모든 문제에 해결을 짝지어 주세요.`, ["s_text"]]);
+  if(!clean(d.item)) out.push(["1단계의 ‘아이템 이름’이 비어 있어서 문장에 이름이 들어가지 못했어요.", ["m_text", "s_text", "o_text"]]);
+  if(!clean(d.o_cust) && !clean(d.c_who)) out.push(["‘고객’ 정보(5번 또는 6번)가 없어서 ‘누가 겪는 문제인지’ 문장이 약해요.", ["m_text", "f_text", "p_text", "s_text", "o_text"]]);
+  const m = market(); if(m.size === null) out.push(["시장 계산기에 숫자를 넣으면 ‘시장 규모’ 문장이 완성돼요. (전체 인원 · 비율 · 구매 비율 · 1인당 구매액)", ["c_text"]]);
+  if(!clean(d.c_src)) out.push(["시장·고객 숫자의 출처를 적으면 신뢰도가 올라가요.", ["c_text"]]);
+  if(!c.feats.length) out.push(["2번 중요한 기능이 비어 있어요. 기능 이름과 장점을 1개 이상 적어 주세요.", ["f_text", "s_text"]]);
+  return out;
+}
+function helpHtml(out){
+  const c = ctx(), draft = COMPOSE[out](), cur = (d[out] || "").trim();
+  const chips = {
+    m_text: [["핵심 수치", c.nums.slice(0, 2).join(", ") || "없음"], ["핵심 가치", c.valKey ? c.val.noun : "-"], ["공감 대상", c.cust || "-"]],
+    f_text: [["연결할 문제", c.probs.slice(0, 2).join(" / ") || "-"], ["핵심 가치", c.valKey ? c.val.noun : "-"], ["고객", c.cust || "-"]],
+    p_text: [["고른 문제점", c.probs.slice(0, 2).join(" / ") || "-"], ["핵심 수치", c.nums.slice(0, 2).join(", ") || "없음"], ["고객", c.cust || "-"]],
+    s_text: [["해결할 문제", c.probs.slice(0, 3).join(" / ") || "-"], ["제공 기능", c.feats.join(", ") || "-"], ["핵심 가치", c.valKey ? c.val.noun : "-"]],
+    c_text: [["고객", clean(d.c_who) || "-"], ["핵심 수치", c.nums.slice(0, 2).join(", ") || "없음"], ["핵심 가치", c.valKey ? c.val.noun : "-"]],
+    o_text: [["고객", c.cust || "-"], ["핵심 가치", c.valKey ? c.val.noun : "-"], ["기능", c.feats.slice(0, 2).join(", ") || "-"]]
+  }[out] || [];
+  const blanks = (BLANK_LABELS[out] || []).filter(([k]) => k === "tags" ? !d.tags.length : !String(d[k] || "").trim()).map(x => x[1]);
+  const checks = contextChecks().filter(x => x[1].includes(out)).map(x => x[0]);
+  const same = draft.trim() && draft.trim() === cur;
+  const osp = out === "o_text" ? OSP_VARIANTS().filter(Boolean) : [];
+  return `<div class="helper"><div class="hh">💡 이 단계 도움 — 입력하신 내용을 분석했어요</div>
+   <div class="hc">${chips.map(([k, v]) => `<span><b>${k}</b> ${esc(v)}</span>`).join("")}</div>
+   ${blanks.length ? `<div class="hb">✏ 아직 비어 있어요: <b>${blanks.join(", ")}</b> — 채울수록 초안이 좋아져요.</div>` : ""}
+   <div class="hd"><b>추천 초안</b>${draft.trim() ? (same ? `<span class="ok">✔ 지금 답변과 같아요</span>` : `<button type="button" data-apply="${out}">적용</button>`) : ""}</div>
+   <pre>${draft.trim() ? esc(draft) : "질문에 답하면 초안이 만들어져요. (아직 입력 정보가 부족해요)"}</pre>
+   ${osp.length > 1 ? `<div class="vr">${osp.map((v, i) => `<button type="button" data-applyosp="${i}">표현 ${i + 1} 적용</button>`).join("")}</div><div class="vt">표현 2: ${esc(osp[1] || "")}<br>표현 3: ${esc(osp[2] || "")}</div>` : ""}
+   ${checks.length ? `<div class="hk"><b>🔎 더 설득력 있게 만들려면</b>${checks.map(x => `<div>• ${esc(x)}</div>`).join("")}</div>` : (draft.trim() ? `<div class="hk good">✔ 맥락이 잘 연결되어 있어요!</div>` : "")}</div>`;
+}
+function refreshHelps(){ helpOpen.forEach(out => { const box = document.querySelector(`[data-helpbox="${out}"]`); if(box) box.innerHTML = helpHtml(out); }); }
+function toggleHelp(out){
+  const box = document.querySelector(`[data-helpbox="${out}"]`); if(!box) return;
+  if(helpOpen.has(out)){ helpOpen.delete(out); box.innerHTML = ""; } else { helpOpen.add(out); box.innerHTML = helpHtml(out); }
+  const b = document.querySelector(`[data-help="${out}"]`); if(b) b.textContent = helpOpen.has(out) ? "▲ 도움 닫기" : "✨ 도움받기";
+}
+function applyDraft(out, text){
+  d[out] = text !== undefined ? text : COMPOSE[out](); d.manual[out] = false;
+  const el = document.querySelector(`[data-k="${out}"]`); if(el) el.value = d[out]; updateHints(out); refreshDoc(); refreshHelps(); persist();
+}
+
+render();
+updateProgress();
+// ───────────── 사업계획서 초안(통합) : 문제인식 + 실현가능성 + 성장전략 + 팀구성 ─────────────
+(function(){
+const SELF = "prob";
+const SRCKEY = KEY + "-src";
+let SRC = (() => { try { return JSON.parse(localStorage.getItem(SRCKEY)) || {}; } catch(e){ return {}; } })();
+function saveSrc(){ try { localStorage.setItem(SRCKEY, JSON.stringify(SRC)); } catch(e){} }
+const SRCNAME = {prob: "문제인식", sol: "실현가능성", grow: "성장전략", team: "팀구성"};
+const SKILLS_P = ["기획·경영", "개발·기술", "디자인", "마케팅·영업", "운영·생산", "재무·회계", "법률·지식재산"];
+function kindOf(x){
+  if(x && x.m_text !== undefined && x.f_text !== undefined) return "prob";
+  if(x && x.sched && x.t1 !== undefined && x.method !== undefined) return "sol";
+  if(x && x.exec && x.budget && x.t1 !== undefined) return "grow";
+  if(x && x.tmem && x.matrix) return "team";
+  return null;
+}
+function srcUi(){
+  const box = $("srcstat"); if(!box) return;
+  box.innerHTML = Object.entries(SRCNAME).map(([k, n]) => k === SELF ? `<span class="ok">✔ ${n}(지금 작성 중인 내용)</span>` : `<span class="${SRC[k] ? "ok" : "no"}">${SRC[k] ? "✔" : "✖"} ${n}${SRC[k] ? "" : " (파일 없음)"}</span>`).join("");
+}
+async function addSources(files){
+  const got = [], bad = [];
+  for(const f of files){
+    try {
+      const x = JSON.parse(await f.text()); const k = kindOf(x);
+      if(k && k === SELF) bad.push(f.name + " (지금 작성 중인 단계의 파일이라 제외)");
+      else if(k){ SRC[k] = x; got.push(SRCNAME[k]); } else bad.push(f.name);
+    } catch(e){ bad.push(f.name); }
+  }
+  saveSrc(); srcUi();
+  alert((got.length ? "불러온 단계: " + got.join(", ") : "불러온 단계가 없어요.") + (bad.length ? "\n\n읽지 못한 파일(앞 단계 앱에서 ‘파일로 저장’한 json이어야 해요): " + bad.join(", ") : ""));
+}
+
+// ── 문서 모델 만들기 ──
+const pnum = v => { const n = parseFloat(String(v).replace(/,/g, "")); return isNaN(n) ? null : n; };
+const pnf = n => Math.round(n).toLocaleString("ko-KR");
+const pwon = n => Math.abs(n) >= 1e8 ? (Math.round(n / 1e6) / 100).toLocaleString("ko-KR") + "억 원" : Math.abs(n) >= 1e4 ? pnf(n / 1e4) + "만 원" : pnf(n) + "원";
+const pman = n => Math.abs(n) >= 10000 ? (Math.round(n / 100) / 100).toLocaleString("ko-KR") + "억 원" : pnf(n) + "만 원";
+function planModel(){
+  const src = k => k === SELF ? (d || {}) : (SRC[k] || {});
+  const P = src("prob"), S = src("sol"), G = src("grow"), T = src("team");
+  const C = o => String(o || "").trim();
+  const ph = name => `(작성 전 — ${name} 파일을 불러오면 채워져요)`;
+  const para = (x, name) => { const t = C(x); return {t: "p", text: t || ph(name), empty: !t}; };
+  const arr = a => Array.isArray(a) ? a : [];
+  const item = [P, S, G, T].map(o => C(o.item)).find(Boolean) || "";
+  const base = [P, S, G, T].find(o => C(o.team) || C(o.solo) || C(o.members)) || P;
+  const solo = base.mode === "solo";
+  const who = solo ? (C(base.solo) ? `개인 · ${C(base.solo)}` : "-") : (C(base.team) || C(base.members) ? `${C(base.team) || "-"} 팀 (${C(base.members) || "-"})` : "-");
+  const dash = x => C(x) || "-";
+  const out = [];
+  out.push({t: "title", text: "예비창업패키지 사업계획서 (초안)"});
+  out.push({t: "note", text: "문제인식·실현가능성·성장전략·팀구성 작성 도구의 내용을 양식 순서로 종합한 초안입니다. 실제 제출은 해당 연도 공고문의 공식 양식에 옮겨 작성하세요."});
+  const out1 = [C(S.scope) && "구현 범위: " + C(S.scope), C(S.goal) && "완료 기준: " + C(S.goal)].filter(Boolean).join("\n");
+  const fundLine = pnum(G.total) !== null ? `총 사업비 ${pman(pnum(G.total))}` + (pnum(G.gov) !== null ? ` (정부지원금 ${pman(pnum(G.gov))})` : "") : "";
+  out.push({t: "h1", text: "일반현황"});
+  out.push({t: "kv", rows: [["창업아이템명", dash(item)], ["신청자(팀)", who], ["협약기간 내 산출물", dash(out1)], ["소요 기간", S.months ? `약 ${S.months}개월` : "-"], ["사업비", dash(fundLine)]]});
+  const fu = [...new Set([S.f1, S.f2, S.f3, P.f1n, P.f2n, P.f3n].map(C).filter(Boolean))];
+  out.push({t: "h1", text: "창업아이템 개요(요약)"});
+  out.push({t: "kv", rows: [["명칭", dash(item)], ["아이템 개요", dash(P.o_text || S.value)], ["고객 요구사항(문제점)", dash(P.p_text)], ["해결 방안", dash(P.s_text)], ["핵심 기능", fu.length ? fu.map((f, i) => `${i + 1}. ${f}`).join("\n") : "-"], ["성장 전략", dash(G.t5 || G.t4)]]});
+  // 1
+  out.push({t: "h1", text: "1. 문제 인식 (Problem)"});
+  out.push({t: "h2", text: "1-1. 창업아이템의 개발 동기"}); out.push(para(P.m_text, "문제인식"));
+  out.push({t: "h3", text: "기존 아이템의 문제점·불편한 점"}); out.push(para(P.p_text, "문제인식"));
+  out.push({t: "h2", text: "1-2. 창업아이템의 목적(필요성)"});
+  out.push({t: "h3", text: "해결 방안"}); out.push(para(P.s_text, "문제인식"));
+  out.push({t: "h3", text: "포함해야 할 중요한 기능(장점)"}); out.push(para(P.f_text, "문제인식"));
+  out.push({t: "h3", text: "한 문장 소개(OSP)"}); out.push(para(P.o_text, "문제인식"));
+  // 2
+  out.push({t: "h1", text: "2. 실현 가능성 (Solution)"});
+  out.push({t: "h2", text: "2-1. 창업아이템의 개발·사업화 전략"});
+  out.push({t: "h3", text: "제품(서비스) 구현 정도와 개발 목표"}); out.push(para(S.t1, "실현가능성"));
+  out.push({t: "h3", text: "비즈니스 모델(BM)"}); out.push(para(S.t2, "실현가능성"));
+  const p = pnum(S.price), c = pnum(S.cust), g = pnum(S.cogs), f = pnum(S.fixed), m = 1 - (g || 0) / 100;
+  if(p !== null && c !== null){ const rev = p * c, gp = rev * m, op = f !== null ? gp - f : null, bep = p && f !== null && m > 0 ? Math.ceil(f / (p * m)) : null; out.push({t: "table", head: ["월 매출", "월 매출총이익", "월 영업이익", "손익분기"], rows: [[pwon(rev), pwon(gp), op !== null ? pwon(op) : "-", bep !== null ? `월 ${pnf(bep)}명` : "-"]]}); }
+  out.push({t: "h3", text: "제작 방법 · 소요 기간 · 추진 일정"}); out.push(para(S.t3, "실현가능성"));
+  const sched = arr(S.sched).filter(r => C(r.phase) || C(r.content)); if(sched.length) out.push({t: "table", head: ["단계", "주요 내용", "기간", "결과물"], rows: sched.map(r => [dash(r.phase), dash(r.content), dash(r.period), dash(r.deliv)])});
+  out.push({t: "h2", text: "2-2. 창업아이템의 시장분석 및 경쟁력 확보방안"});
+  out.push({t: "h3", text: "목표 시장 분석"}); out.push(para(S.t4 || P.c_text, "실현가능성"));
+  out.push({t: "h3", text: "경쟁사(대체재) 분석"}); out.push(para(S.t5, "실현가능성"));
+  const comps = arr(S.comps).filter(r => C(r.name)); if(comps.length) out.push({t: "table", head: ["경쟁사·대체재", "강점", "약점(한계)"], rows: comps.map(r => [dash(r.name), dash(r.strong), dash(r.weak)])});
+  out.push({t: "h3", text: "차별화 전략과 경쟁력 확보방안"}); out.push(para(S.t6, "실현가능성"));
+  const diffs = arr(S.diffs).filter(r => C(r.diff)); if(diffs.length) out.push({t: "table", head: ["비교 기준", "경쟁사는 ~ / 우리는 ~", "근거"], rows: diffs.map(r => [dash(r.crit), dash(r.diff), dash(r.evid)])});
+  // 3
+  out.push({t: "h1", text: "3. 성장전략 (Scale-up)"});
+  out.push({t: "h2", text: "3-1. 자금 소요 및 조달계획"});
+  out.push({t: "h3", text: "자금이 필요한 이유와 금액의 적정성"}); out.push(para(G.t1, "성장전략"));
+  out.push({t: "h3", text: "사업비 사용 계획"}); out.push(para(G.t2, "성장전략"));
+  const brows = arr(G.budget).filter(r => C(r.cat) && pnum(r.amt)); if(brows.length){ const sum = brows.reduce((a, r) => a + pnum(r.amt), 0); out.push({t: "table", head: ["비목", "산출근거", "금액(만원)", "조달원"], rows: [...brows.map(r => [r.cat, dash(r.basis), pnf(pnum(r.amt)), r.src || "정부지원금"]), ["합계", "", pnf(sum), ""]]}); }
+  out.push({t: "h3", text: "자금 조달 계획과 집행 시기"}); out.push(para(G.t3, "성장전략"));
+  const ex = arr(G.exec).filter(r => C(r.what)); if(ex.length) out.push({t: "table", head: ["시기", "주요 지출·활동", "집행 비율(%)"], rows: ex.map(r => [dash(r.when), dash(r.what), dash(r.pct)])});
+  out.push({t: "h2", text: "3-2. 시장 진입 및 성과 창출 전략"});
+  out.push({t: "h3", text: "내수시장 진입 전략"}); out.push(para(G.t4, "성장전략"));
+  const chs = arr(G.ch).filter(r => C(r.name)); if(chs.length) out.push({t: "table", head: ["진출 채널", "방법", "목표 고객 수(명)"], rows: chs.map(r => [dash(r.name), dash(r.plan), dash(r.n)])});
+  out.push({t: "h3", text: "성과 목표와 성장 로드맵"}); out.push(para(G.t5, "성장전략"));
+  const kp = arr(G.kpi).filter(r => C(r.name)); if(kp.length) out.push({t: "table", head: ["성과 지표", "현재", "6개월 뒤", "12개월 뒤"], rows: kp.map(r => [dash(r.name), dash(r.now), dash(r.m6), dash(r.m12)])});
+  if(C(G.t6)){ out.push({t: "h3", text: "해외 진출 계획 · 사회적 가치"}); out.push(para(G.t6, "성장전략")); }
+  // 4
+  const ln = C(T.lname) || (T.mode === "solo" ? C(T.solo) : C((T.members || "").split(/[,，]/)[0]));
+  out.push({t: "h1", text: "4. 팀 구성 (Team)"});
+  out.push({t: "h2", text: "4-1. 대표자 및 팀원의 보유 역량"});
+  out.push({t: "h3", text: "대표자 보유 역량"}); out.push(para(T.t1, "팀구성"));
+  out.push({t: "h3", text: "팀원 구성 현황"}); out.push(para(T.t2, "팀구성"));
+  const yrs = C(T.lyears);
+  const lead = ln ? [["대표자", ln, dash(T.lrole), dash([yrs && "경력 " + (/\D/.test(yrs) ? yrs : yrs + "년"), C(T.lcert)].filter(Boolean).join(", ")), "현재 팀원"]] : [];
+  const trs = arr(T.tmem).filter(r => C(r.name) || C(r.task)).map(r => [dash(r.rank), dash(r.name), dash(r.task), dash(r.skill), dash([r.status || "현재 팀원", r.when].filter(Boolean).join(" · "))]);
+  if(lead.length || trs.length) out.push({t: "table", head: ["직급·역할", "성명", "담당 업무", "보유 역량·경력", "구성 상태"], rows: [...lead, ...trs]});
+  out.push({t: "h3", text: "역할 분담과 부족 역량 보완 계획"}); out.push(para(T.t3, "팀구성"));
+  const mx = arr(T.matrix).map((r, i) => ({skill: SKILLS_P[i], ...r})).filter(r => r.skill && r.owner);
+  if(mx.length) out.push({t: "table", head: ["필요한 역량", "담당", "보완 방법", "시기"], rows: mx.map(r => [r.skill, r.owner, /^공백/.test(r.owner) ? dash(r.fill) : "-", dash(r.when)])});
+  out.push({t: "h3", text: "팀의 강점과 실행력"}); out.push(para(T.t5, "팀구성"));
+  const partners = arr(T.partners).filter(r => C(r.name));
+  out.push({t: "h2", text: "4-2. 업무 파트너 현황 및 협력 방안"}); out.push(para(T.t4, "팀구성"));
+  if(partners.length) out.push({t: "table", head: ["파트너", "협력 분야", "파트너의 강점", "협력 내용", "상태"], rows: partners.map(r => [dash(r.name), dash(r.field), dash(r.skill), dash(r.content), dash(r.state)])});
+  const parts = Object.entries(SRCNAME).map(([k, n]) => [n, k === SELF || !!SRC[k]]);
+  return {nodes: out, parts, missing: out.filter(n => n.t === "p" && n.empty).length, item};
+}
+
+// ── 화면 미리보기 ──
+function planHtml(model){
+  const tbl = n => `<table class="ptb"><tr>${n.head.map(h => `<th>${esc(h)}</th>`).join("")}</tr>${n.rows.map(r => `<tr>${r.map(c => `<td>${esc(c)}</td>`).join("")}</tr>`).join("")}</table>`;
+  return model.nodes.map(n => {
+    switch(n.t){
+      case "title": return `<h1 class="ptitle">${esc(n.text)}</h1>`;
+      case "note": return `<div class="pnote">${esc(n.text)}</div>`;
+      case "h1": return `<h2 class="ph1">${esc(n.text)}</h2>`;
+      case "h2": return `<h3 class="ph2">${esc(n.text)}</h3>`;
+      case "h3": return `<h4 class="ph3">${esc(n.text)}</h4>`;
+      case "p": return `<div class="pp ${n.empty ? "pe" : ""}">${esc(n.text)}</div>`;
+      case "kv": return `<table class="ptb kv">${n.rows.map(r => `<tr><th>${esc(r[0])}</th><td>${esc(r[1])}</td></tr>`).join("")}</table>`;
+      case "table": return tbl(n);
+    }
+    return "";
+  }).join("");
+}
+function openPlan(){
+  const model = planModel();
+  let ov = $("planView");
+  if(!ov){ ov = document.createElement("div"); ov.id = "planView"; document.body.appendChild(ov); }
+  ov.innerHTML = `<div class="pbar"><b>📑 예비창업패키지 사업계획서 초안</b><span class="pst">${model.parts.map(([n, ok]) => `<i class="${ok ? "ok" : "no"}">${ok ? "✔" : "✖"} ${n}</i>`).join("")}${model.missing ? `<i class="no">비어 있는 칸 ${model.missing}곳</i>` : `<i class="ok">모든 칸이 채워졌어요</i>`}</span><span style="flex:1"></span><label class="btnlike">📂 앞 단계 파일 불러오기<input type="file" id="srcFiles2" accept=".json" multiple hidden></label>
+    <button data-plan="print">🖨 인쇄 / PDF</button><button data-plan="docx" class="go">📄 Word로 저장</button><button data-plan="close">✕ 닫기</button></div>
+    <div class="pdoc">${planHtml(model)}</div>`;
+  ov.classList.add("on"); document.body.classList.add("plan-open"); ov.scrollTop = 0;
+}
+function closePlan(){ const ov = $("planView"); if(ov) ov.classList.remove("on"); document.body.classList.remove("plan-open"); }
+
+// ── Word 저장 ──
+async function planDocx(){
+  const model = planModel();
+  const run = (t, o = {}) => `<w:r><w:rPr><w:rFonts w:ascii="맑은 고딕" w:eastAsia="맑은 고딕" w:hAnsi="맑은 고딕"/>${o.b ? "<w:b/>" : ""}${o.color ? `<w:color w:val="${o.color}"/>` : ""}<w:sz w:val="${o.sz || 20}"/></w:rPr>${String(t ?? "").split("\n").map((l, i) => `${i ? "<w:br/>" : ""}<w:t xml:space="preserve">${esc(l)}</w:t>`).join("")}</w:r>`;
+  const para = (t, o = {}) => `<w:p><w:pPr>${o.center ? '<w:jc w:val="center"/>' : ""}<w:spacing w:before="${o.before ?? 50}" w:after="${o.after ?? 50}"/>${o.fill ? `<w:shd w:val="clear" w:color="auto" w:fill="${o.fill}"/>` : ""}</w:pPr>${run(t, o)}</w:p>`;
+  const border = ["top", "left", "bottom", "right", "insideH", "insideV"].map(s => `<w:${s} w:val="single" w:sz="6" w:space="0" w:color="555555"/>`).join("");
+  const W = 10300;
+  const tbl = (rows, widths, head, labelCol) => `<w:tbl><w:tblPr><w:tblW w:w="${widths.reduce((a, b) => a + b)}" w:type="dxa"/><w:tblBorders>${border}</w:tblBorders><w:tblLayout w:type="fixed"/></w:tblPr><w:tblGrid>${widths.map(w => `<w:gridCol w:w="${w}"/>`).join("")}</w:tblGrid>${rows.map((r, ri) => `<w:tr>${r.map((c, ci) => `<w:tc><w:tcPr><w:tcW w:w="${widths[ci]}" w:type="dxa"/>${(head && ri === 0) || (labelCol && ci === 0) ? '<w:shd w:val="clear" w:color="auto" w:fill="E9ECEF"/>' : ""}</w:tcPr>${para(c, {b: (head && ri === 0) || (labelCol && ci === 0), sz: 19})}</w:tc>`).join("")}</w:tr>`).join("")}</w:tbl>`;
+  const body = model.nodes.map(n => {
+    switch(n.t){
+      case "title": return para(n.text, {b: 1, sz: 38, center: 1, before: 0, after: 80});
+      case "note": return para(n.text, {sz: 17, color: "B45309", after: 120});
+      case "h1": return para(n.text, {b: 1, sz: 26, before: 260, fill: "DDE7F0", color: "0F3D63"});
+      case "h2": return para(n.text, {b: 1, sz: 23, before: 160, color: "0F766E"});
+      case "h3": return para(n.text, {b: 1, sz: 21, before: 100});
+      case "p": return tbl([[n.text]], [W]);
+      case "kv": return tbl(n.rows, [2400, W - 2400], false, true);
+      case "table": { const k = n.head.length, w = Math.floor(W / k); const ws = Array.from({length: k}, (_, i) => i === k - 1 ? W - w * (k - 1) : w); return tbl([n.head, ...n.rows], ws, true); }
+    }
+    return "";
+  }).join("");
+  const zip = new JSZip();
+  zip.file("[Content_Types].xml", '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/></Types>');
+  zip.file("_rels/.rels", '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>');
+  zip.file("word/_rels/document.xml.rels", '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"></Relationships>');
+  zip.file("word/document.xml", '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body>' + body + '<w:p/><w:sectPr><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="850" w:right="800" w:bottom="850" w:left="800" w:header="567" w:footer="567" w:gutter="0"/></w:sectPr></w:body></w:document>');
+  await saveFile(await zip.generateAsync({type: "blob", mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"}), `사업계획서초안_${(model.item || "무제").replace(/[\\/:*?"<>|]/g, "")}.docx`);
+}
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-plan]"); if(!b) return; const k = b.dataset.plan;
+  if(k === "open") openPlan(); else if(k === "close") closePlan(); else if(k === "print") window.print(); else if(k === "docx") planDocx();
+});
+document.addEventListener("change", e => {
+  if(e.target && /^srcFiles/.test(e.target.id || "")){ const ov = $("planView") && $("planView").classList.contains("on"); addSources([...e.target.files]).then(() => { if(ov) openPlan(); }); e.target.value = ""; }
+});
+window.__planSrcUi = srcUi; window.__plan = {planModel, planDocx, openPlan, addSources, setSrc: o => { SRC = o; }};
+})();
+</script>
+
+
+
+
+
+
+
+
+
+<!--SS-LINK-->
+<script>
+// ═════════ 창업시뮬 연결 모듈 (각 앱에 삽입) v1.0 · 1단계: 발견·설계 ═════════
+(function(){
+if(window.__SS) return; window.__SS = 1;
+const ME = "ideation";
+const REG = {
+  ideation: {t: "아이데이션", e: "💭", dir: "아이데이션", key: "problem-helper-v1"},
+  interview: {t: "고객인터뷰", e: "🎤", dir: "고객인터뷰", key: "interview-v1"},
+  persona: {t: "고객페르소나", e: "👤", dir: "고객페르소나", key: "persona-v1"},
+  bench: {t: "벤치마킹", e: "📚", dir: "벤치마킹", key: "bench-v1"},
+  market: {t: "시장조사·경쟁분석", e: "🔍", dir: "시장조사경쟁분석", key: "market-v1"},
+  diff: {t: "차별화", e: "💡", dir: "차별화", key: "diff-workbook-v1"},
+  lean: {t: "린캔버스", e: "🧩", dir: "린캔버스", key: "leancanvas-v1"},
+  bmc: {t: "비즈니스모델캔버스", e: "🗂️", dir: "비즈니스모델캔버스", key: "bmc-v1"},
+  bizm: {t: "비즈니스모델", e: "🏗️", dir: "비즈니스모델", key: "bizmodel-v1"},
+  diagram: {t: "BM도식화", e: "🔀", dir: "BM도식화", key: "bmdiagram-v1"},
+  revenue: {t: "수익구조", e: "💰", dir: "수익구조", key: "revenue-v1"},
+  problem: {t: "문제인식", e: "🎯", dir: "문제인식", key: "problem-pkg-v1"}
+};
+const F = (fn, over) => ({via: "file", fn, over: !!over}), O = (fn, over) => ({via: "obj", fn, over: !!over});
+const PREV4 = {persona: F("importPrev"), interview: F("importPrev"), problem: F("importPrev"), ideation: F("importPrev")};
+const IMP = {
+  problem: {ideation: F("importPrev", true), persona: F("importPrev"), interview: F("importPrev")},
+  interview: {lean: F("importCanvas"), bmc: F("importCanvas"), ideation: O("prob"), problem: O("prob")},
+  persona: {interview: O("persona"), ideation: O("persona"), problem: O("persona")},
+  lean: Object.assign({}, PREV4, {diff: O("diff"), market: O("market")}),
+  bmc: Object.assign({}, PREV4),
+  bizm: {bmc: F("importPrev"), lean: F("importPrev"), persona: F("importPrev")},
+  diagram: {bizm: O("diagram", true), bmc: O("diagram", true), lean: O("diagram", true)},
+  revenue: {diagram: F("importPrev"), bizm: F("importPrev"), bmc: F("importPrev"), lean: F("importPrev")}
+};
+const REF = {ideation: ["bench"], interview: ["bench"], problem: ["bench", "market"], lean: ["bench", "market", "diff"], bmc: ["bench", "market", "diff"], bizm: ["market", "diff"], revenue: ["market"]};
+
+const me = REG[ME];
+if(!me) return;
+const LS = {get: k => { try { return localStorage.getItem(k); } catch(e){ return null; } }, set: (k, v) => { try { localStorage.setItem(k, v); } catch(e){} }};
+const parse = s => { try { return JSON.parse(s); } catch(e){ return null; } };
+const stateOf = id => parse(LS.get(REG[id].key));
+const pubOf = id => parse(LS.get("ss-pub-" + id)) || {};
+const SKIP = new Set(["page", "version", "manual", "form", "mode", "filter", "search", "x_n", "x_find", "hint", "pos"]);
+function fillCount(x){ let n = 0; (function walk(v){ if(v == null) return; if(typeof v === "string"){ if(v.trim()) n++; } else if(Array.isArray(v)){ v.forEach(walk); } else if(typeof v === "object"){ Object.keys(v).forEach(k => { if(!SKIP.has(k)) walk(v[k]); }); } })(x); return n; }
+const hashOf = x => { const c = JSON.parse(JSON.stringify(x)); ["page", "version", "manual", "filter", "search", "hint", "pos"].forEach(k => delete c[k]); const s = JSON.stringify(c); let h = 5381; for(let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) | 0; return String(h); };
+const seenAll = () => parse(LS.get("ss-seen-v1")) || {};
+const markSeen = (src, st) => { const s = seenAll(); (s[ME] = s[ME] || {})[src] = hashOf(st); LS.set("ss-seen-v1", JSON.stringify(s)); };
+function status(src){ const st = stateOf(src); if(!st || fillCount(st) < 3) return "none"; return (seenAll()[ME] || {})[src] === hashOf(st) ? "synced" : "new"; }
+const curFill = () => (typeof d !== "undefined" && d) ? fillCount(d) : 0;
+const esc = s => String(s == null ? "" : s).replace(/[&<>"]/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"}[c]));
+
+// ───── 새로 만든 가져오기 함수들 ─────
+const T = v => String(v == null ? "" : v).trim();
+const setIf = (k, v) => { v = T(v); if(v && !T(d[k])){ d[k] = v; return 1; } return 0; };
+const common = x => { let n = 0; ["item", "team", "members", "solo"].forEach(k => { n += 0; setIf(k, x[k]); }); return n; };
+const redo = (...ks) => { d.manual = d.manual || {}; ks.forEach(k => { d.manual[k] = false; }); try { if(typeof ensure === "function") ensure(); if(typeof allRecompose === "function") allRecompose(); render(); } catch(e){ try { render(); } catch(e2){} } };
+const SSIMP = {
+  prob(x){ let n = 0; const who = x.c_who || x.o_cust; n += setIf("h_who", who); n += setIf("t_crit", who); n += setIf("h_prob", x.sp1 || x.o_prob || x.e1); common(x); redo("i_text", "q_text"); return n ? `고객·문제 가설 ${n}칸을 채웠어요 (비어 있던 칸만)` : "가져올 새 내용이 없어요"; },
+  persona(x){
+    let n = 0;
+    if(x.form === "interview"){
+      n += setIf("p_job", x.t_crit || x.h_who);
+      const log = (x.log || []).filter(r => r && (T(r.prob) || T(r.alt)));
+      [...new Set(log.map(r => T(r.prob)).filter(Boolean))].slice(0, 3).forEach((p, i) => { if(d.pn[i] && !T(d.pn[i].pain)){ d.pn[i].pain = p; n++; } });
+      const cnt = {}; log.forEach(r => { const a = T(r.alt); if(a) cnt[a] = (cnt[a] || 0) + 1; }); const top = Object.entries(cnt).sort((a, b) => b[1] - a[1])[0];
+      if(top) n += setIf("b_alt", top[0]); n += setIf("g1", x.c_need); n += setIf("m_quote", x.c_quote);
+    } else {
+      n += setIf("p_job", x.c_who || x.o_cust);
+      [x.sp1, x.sp2, x.sp3].forEach((p, i) => { p = T(p); if(p && d.pn[i] && !T(d.pn[i].pain)){ d.pn[i].pain = p; n++; } });
+      n += setIf("b_alt", x.e1);
+    }
+    common(x); redo("p_text", "day_text", "g_text", "pn_text", "b_text", "m_text"); return n ? `프로필·불편·행동 ${n}칸을 채웠어요 (비어 있던 칸만)` : "가져올 새 내용이 없어요";
+  },
+  diff(x){
+    const cards = (pubOf("diff").cards || []).slice(0, 4); if(!cards.length) return "차별화에서 고른 카드가 아직 없어요";
+    let n = 0; cards.forEach(c => { if(!d.c.unfair.some(z => z.l === c.n)){ d.c.unfair.push({l: c.n, det: c.note || ""}); n++; } });
+    common(x); redo("unfair"); return n ? `경쟁 우위 카드 ${n}장을 가져왔어요` : "이미 같은 카드가 들어 있어요";
+  },
+  market(x){
+    const p = pubOf("market"), comp = (p.comp || []).filter(Boolean); let n = 0;
+    if(comp.length && d.a && d.a.problem && !T(d.a.problem[3])){ d.a.problem[3] = comp.slice(0, 4).join(", "); n++; }
+    common(x); redo("problem"); return n ? "문제의 ‘기존 대안’ 칸에 경쟁사를 가져왔어요" : "가져올 새 내용이 없어요";
+  },
+  diagram(x){
+    const first = a => (Array.isArray(a) && a[0]) ? a[0] : null, lab = e => e ? (T(e.l) + (T(e.det) ? " " + T(e.det) : "")) : "";
+    let N;
+    if(x.form === "bizmodel") N = {us: x.item, cust: x.cust1, offer: lab(first(x.ofc)) || x.offer, rev: lab(first(x.rev)), partners: (x.ptn || []).filter(p => T(p.name)).map(p => ({name: p.name, give: p.give, pay: p.pay}))};
+    else N = {us: x.item, cust: (x.a && x.a.cust && x.a.cust[0]) || x.x_cust, offer: lab(first(x.c && x.c.solution)), rev: lab(first(x.c && x.c.revenue)), partners: ((x.c && x.c.partners) || []).slice(0, 3).map(e => ({name: T(e.det).split(" — ")[0] || e.l, give: e.l, pay: ""}))};
+    dbg("diagram N", JSON.stringify(N));
+    const short = (s, n) => { s = T(s).replace(/^(핵심 고객|얼리어답터):\s*/, ""); return s.length > n ? s.slice(0, n) + "…" : s; };
+    const us = {n: short(N.us, 14) || "우리 서비스", s: "", c: 0, us: true}, cu = {n: short(N.cust, 16) || "고객", s: "", c: 1};
+    const pts = N.partners.slice(0, 4).map(p => ({n: short(p.name, 14), s: short(p.give, 16), c: 2}));
+    const offer = short(N.offer, 18) || "제품·서비스 제공", rev = short(N.rev, 18) || "대금";
+    let type, pp = [], rel = [];
+    if(!pts.length){ type = "t1"; pp = [us, cu]; rel = [{f: 0, t: 1, l: offer, k: "prod"}, {f: 1, t: 0, l: rev, k: "money"}]; }
+    else if(pts.length === 1){ type = "t2"; pp = [cu, us, pts[0]]; rel = [{f: 1, t: 0, l: offer, k: "prod"}, {f: 0, t: 1, l: rev, k: "money"}, {f: 2, t: 1, l: short(N.partners[0].give, 18) || "상품·서비스 공급", k: "prod"}, {f: 1, t: 2, l: short(N.partners[0].pay, 14) || "대가 지급", k: "money"}]; }
+    else { type = "hub"; pp = [us, cu, ...pts]; rel = [{f: 0, t: 1, l: offer, k: "prod"}, {f: 1, t: 0, l: rev, k: "money"}]; pts.forEach((p, i) => { rel.push({f: i + 2, t: 0, l: short(N.partners[i].give, 18) || "공급", k: "prod"}, {f: 0, t: i + 2, l: short(N.partners[i].pay, 14) || "대가 지급", k: "money"}); }); }
+    dbg("diagram built", type, pp.length, rel.length); d.type = type; d.pp = pp; d.rel = rel.slice(0, 12); d.pos = {}; common(x); dbg("diagram redo"); redo("t_text", "p_text", "r_text", "e_text"); dbg("diagram redone");
+    return `참여자 ${pp.length}곳·관계 ${d.rel.length}개로 도식 초안을 만들었어요 (그림을 보고 고쳐 주세요)`;
+  }
+};
+window.SSIMP = SSIMP;
+
+// ───── 가져오기 실행 ─────
+const DBG = /ss-dbg/.test(location.hash); const dbg = (...a) => { if(DBG) console.log("SSDBG", ...a); };
+function runImp(src, done, auto){ dbg("runImp", src);
+  const spec = (IMP[ME] || {})[src]; const st = stateOf(src);
+  if(!spec || !st) return done && done("앞 단계 내용이 아직 없어요");
+  if(spec.over && curFill() > 4 && auto) return done && done("이미 작성한 내용이 있어 건너뛰었어요 (직접 가져오기를 눌러 주세요)");
+  if(spec.over && curFill() > 4 && !confirm("이미 작성한 내용 중 같은 칸은 바뀔 수 있어요.\n계속할까요?")) return done && done("취소했어요");
+  const oa = window.alert, msgs = []; window.alert = m => { msgs.push(String(m)); };
+  const fin = res => { dbg("fin", src, String(res || msgs[0]).slice(0, 60)); window.alert = oa; const bad = /아닙니다|올바른|못했|아직 없어요/.test(String(res || msgs[0] || "")); if(!bad) markSeen(src, st); const first = String(res || msgs[0] || "가져왔어요").split("\n").filter(Boolean).slice(0, 2).join(" · "); done && done(first.slice(0, 160)); try { panelRefresh(); } catch(e){} };
+  try {
+    if(spec.via === "obj"){ const r = SSIMP[spec.fn](st, src); fin(r); }
+    else { const fn = window[spec.fn]; if(typeof fn !== "function"){ window.alert = oa; return done && done("이 화면에서는 가져오기를 쓸 수 없어요"); } fn(new File([JSON.stringify(st)], src + ".json", {type: "application/json"})); let tries = 0; const wait = () => { if(msgs.length || ++tries > 40) return fin(); setTimeout(wait, 120); }; setTimeout(wait, 150); }
+  } catch(e){ window.alert = oa; done && done("가져오지 못했어요 (" + (e && e.message || e) + ")"); }
+}
+function coreFill(){
+  if(typeof d === "undefined" || !d) return false; let ch = false;
+  ["item", "team", "members", "solo"].forEach(k => {
+    if(k in d && !T(d[k])){ const core = parse(LS.get("ss-core-v1")) || {}; if(T(core[k])){ d[k] = T(core[k]); ch = true; return; } for(const id of Object.keys(REG)){ if(id === ME) continue; const s = stateOf(id); if(s && T(s[k])){ d[k] = T(s[k]); ch = true; break; } } }
+  });
+  if(ch){ try { render(); persist(); } catch(e){} } return ch;
+}
+function autoRun(){
+  const q = (location.hash.match(/ss-pull=(\w+)/) || [])[1];
+  if(q && (IMP[ME] || {})[q]){ history.replaceState(null, "", location.pathname + location.search); runImp(q, m => toast("🔗 " + REG[q].t + " → " + m)); return; }
+  if(LS.get("ss-auto-v1") === "off" || curFill() > 4) return;
+  const todo = Object.keys(IMP[ME] || {}).filter(s => status(s) === "new"); if(!todo.length) return;
+  let i = 0, got = 0; const next = () => { if(i >= todo.length){ if(got) toast("🔗 앞 단계 " + got + "곳에서 내용을 가져왔어요 (빈 칸만 채움)"); return; } const s = todo[i++]; runImp(s, m => { if(!/없어요|취소|못했|건너뛰/.test(m)) got++; setTimeout(next, 150); }, true); }; next();
+}
+
+// ───── 화면 ─────
+const css = `#ss-pill{position:fixed;left:12px;bottom:82px;z-index:99990;font:700 13px 'Malgun Gothic',sans-serif;background:#16294a;color:#fff;border:0;border-radius:999px;padding:9px 14px;cursor:pointer;box-shadow:0 3px 10px rgba(0,0,0,.28)}#ss-pill i{font-style:normal;background:#ef4444;border-radius:999px;padding:0 7px;margin-left:6px;font-size:12px}#ss-panel{position:fixed;left:12px;bottom:126px;z-index:99991;width:min(380px,calc(100vw - 24px));max-height:70vh;overflow:auto;background:#fff;color:#1f2937;border:1.5px solid #16294a;border-radius:14px;padding:12px 14px;box-shadow:0 8px 28px rgba(0,0,0,.3);font:13px/1.5 'Malgun Gothic',sans-serif;display:none}#ss-panel h4{margin:10px 0 4px;font-size:13px;color:#16294a}#ss-panel .hd{display:flex;justify-content:space-between;align-items:center;font-weight:800;font-size:14px}#ss-panel a{color:#2563eb;text-decoration:none}#ss-panel a:hover{text-decoration:underline}#ss-panel .row{display:flex;align-items:center;gap:6px;padding:5px 0;border-bottom:1px solid #eef2f7}#ss-panel .row b{flex:1}#ss-panel .st{font-size:11.5px;border-radius:999px;padding:1px 8px}#ss-panel .st.none{background:#f1f5f9;color:#64748b}#ss-panel .st.new{background:#fee2e2;color:#b91c1c}#ss-panel .st.synced{background:#dcfce7;color:#166534}#ss-panel button{font:inherit;font-size:12px;border:1px solid #16294a;background:#fff;color:#16294a;border-radius:8px;padding:2px 9px;cursor:pointer}#ss-panel button.go{background:#16294a;color:#fff}#ss-panel .msg{font-size:12px;color:#166534;background:#f0fdf4;border-radius:8px;padding:3px 8px;margin:2px 0}#ss-panel .ref{font-size:12px;color:#334155;padding:2px 0}#ss-panel .sm{font-size:11.5px;color:#64748b}#ss-toast{position:fixed;left:12px;bottom:130px;z-index:99992;max-width:min(420px,calc(100vw - 24px));background:#166534;color:#fff;border-radius:10px;padding:8px 12px;font:600 13px 'Malgun Gothic',sans-serif;box-shadow:0 4px 14px rgba(0,0,0,.25);display:none}@media print{#ss-pill,#ss-panel,#ss-toast{display:none!important}}`;
+const st = document.createElement("style"); st.textContent = css; document.head.appendChild(st);
+const pill = document.createElement("button"); pill.id = "ss-pill"; pill.type = "button"; document.body.appendChild(pill);
+const panel = document.createElement("div"); panel.id = "ss-panel"; document.body.appendChild(panel);
+const tbox = document.createElement("div"); tbox.id = "ss-toast"; document.body.appendChild(tbox);
+let tt; function toast(m){ tbox.textContent = m; tbox.style.display = "block"; clearTimeout(tt); tt = setTimeout(() => { tbox.style.display = "none"; }, 5000); }
+const results = {};
+function nextOf(){ return Object.keys(IMP).filter(k => IMP[k][ME]); }
+function panelRefresh(){
+  const ups = Object.keys(IMP[ME] || {}), nw = ups.filter(s => status(s) === "new").length;
+  pill.innerHTML = "🔗 창업시뮬" + (nw ? `<i>${nw}</i>` : ""); pill.title = "앞뒤 단계 연결";
+  const lab = {none: "아직 없음", new: "🆕 새 내용", synced: "✔ 가져옴"};
+  let h = `<div class="hd"><span>${me.e} ${me.t}</span><a href="../창업시뮬/index.html">🧭 허브 열기</a></div><div class="sm">같은 브라우저에서 앞 단계 앱에 쓴 내용이 자동으로 공유돼요. 이미 쓴 칸은 지우지 않고, 빈 칸만 채워요.</div>`;
+  if(ups.length){ h += `<h4>⬅ 앞 단계에서 가져오기</h4>` + ups.map(s => { const sv = status(s); return `<div class="row"><b>${REG[s].e} ${REG[s].t}</b><span class="st ${sv}">${lab[sv]}</span>${sv !== "none" ? `<button class="go" data-ss-pull="${s}">가져오기</button>` : `<a href="../${REG[s].dir}/index.html">열기</a>`}</div>${results[s] ? `<div class="msg">${esc(results[s])}</div>` : ""}`; }).join(""); }
+  else h += `<h4>⬅ 앞 단계</h4><div class="sm">이 앱이 연결 흐름의 시작이에요.</div>`;
+  const nx = nextOf(); if(nx.length) h += `<h4>➡ 이 내용이 이어지는 곳</h4>` + nx.map(k => `<div class="row"><b>${REG[k].e} ${REG[k].t}</b><a href="../${REG[k].dir}/index.html#ss-pull=${ME}">이어서 쓰기 →</a></div>`).join("");
+  const refs = (REF[ME] || []).map(k => ({k, p: pubOf(k)})).filter(o => (o.p.cards || []).length);
+  if(refs.length) h += `<h4>📎 참고 — 다른 모듈에서 고른 카드</h4>` + refs.map(o => `<div class="ref"><b>${REG[o.k].e} ${REG[o.k].t}</b> : ${o.p.cards.map(c => esc(c.n)).join(", ")}</div>`).join("");
+  h += `<h4>⚙ 설정</h4><label class="sm"><input type="checkbox" id="ss-auto" ${LS.get("ss-auto-v1") === "off" ? "" : "checked"}> 처음 열 때 앞 단계 내용을 자동으로 가져오기 (비어 있는 앱만)</label><div class="sm" style="margin-top:4px"><a href="./${me.dir}_사전교육.pptx">📑 이 모듈 사전교육 PPT</a></div>`;
+  panel.innerHTML = h;
+}
+pill.onclick = () => { panelRefresh(); panel.style.display = panel.style.display === "block" ? "none" : "block"; };
+panel.addEventListener("click", e => { const b = e.target.closest("[data-ss-pull]"); if(!b) return; const s = b.dataset.ssPull; b.disabled = true; b.textContent = "가져오는 중…"; runImp(s, m => { results[s] = m; panelRefresh(); }); });
+panel.addEventListener("change", e => { if(e.target.id === "ss-auto") LS.set("ss-auto-v1", e.target.checked ? "on" : "off"); });
+document.addEventListener("visibilitychange", () => { if(!document.hidden) panelRefresh(); });
+window.addEventListener("storage", () => panelRefresh());
+
+// ───── 다른 앱이 참고하도록 선택 카드 공유 ─────
+const galleryCards = () => (d.rows || []).filter(r => r.id !== null && r.id !== undefined && CARDS[r.id]).map(r => { const c = CARDS[r.id]; const note = Object.keys(r).filter(k => k !== "id" && typeof r[k] === "string" && r[k].trim()).map(k => r[k].trim())[0] || ""; return {n: c.n, cat: c.cat, note}; });
+const PUB = {
+  bench: () => ({cards: galleryCards()}), diff: () => ({cards: galleryCards()}),
+  market: () => ({cards: galleryCards(), comp: (d.cp || []).slice(1).map(p => p && p.name).filter(Boolean), tam: d.tam, samp: d.samp, somp: d.somp, def: d.def}),
+  revenue: () => ({cards: (d.rows || []).filter(r => r.id).map(r => ({n: CM[r.id].name, cat: CM[r.id].cat, note: ""}))})
+};
+function pubNow(){ const f = PUB[ME]; if(!f) return; try { LS.set("ss-pub-" + ME, JSON.stringify(f())); } catch(e){} }
+const _si = Storage.prototype.setItem; Storage.prototype.setItem = function(k, v){ _si.apply(this, arguments); if(k === me.key) pubNow(); };
+
+setTimeout(() => { try { pubNow(); coreFill(); panelRefresh(); autoRun(); } catch(e){ console.warn("ss", e); } }, 400);
+if(/ss-example/.test(location.hash)) setTimeout(() => { const b = document.querySelector('[data-fix="example"]'); if(b) b.click(); }, 900);
+if(/ss-test/.test(location.search + location.hash)) setTimeout(() => { const r = document.createElement("pre"); r.id = "RESULT"; r.textContent = JSON.stringify({d: typeof d !== "undefined" ? d : null, panel: panel.innerText, toast: tbox.textContent}); document.body.appendChild(r); }, 4500);
+})();
+
+</script>
+<!--/SS-LINK-->
+</body>
+</html>
